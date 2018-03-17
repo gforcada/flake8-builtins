@@ -136,6 +136,17 @@ class TestBuiltins(unittest.TestCase):
         ret = [c for c in checker.run()]
         self.assertEqual(len(ret), 1)
 
+    def test_except_variable(self):
+        tree = ast.parse(
+            'try:\n'
+            '    1 / 0\n'
+            'except ZeroDivisionError as sum:\n'
+            '    print(sum)'
+        )
+        checker = BuiltinsChecker(tree, '/home/script.py')
+        ret = [c for c in checker.run()]
+        self.assertEqual(len(ret), 1)
+
     @mock.patch('flake8.utils.stdin_get_value')
     def test_stdin(self, stdin_get_value):
         code = u'max = 4'
