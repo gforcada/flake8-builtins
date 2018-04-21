@@ -28,7 +28,7 @@ if sys.version_info >= (3, 0):
     ]
 else:
     import __builtin__
-    int_types = (int, long)
+    int_types = (int, long)  # noqa: F821
     BUILTINS = [
         a[0]
         for a in inspect.getmembers(__builtin__)
