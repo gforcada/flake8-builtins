@@ -141,7 +141,7 @@ class BuiltinsChecker(object):
                     yield self.error(
                         arg,
                         message=self.argument_msg,
-                        variable=arg.id
+                        variable=arg.id,
                     )
 
     def check_for_loop(self, statement):
