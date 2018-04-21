@@ -20,6 +20,7 @@ WHITE_LIST = [
 
 if sys.version_info >= (3, 0):
     import builtins
+    int_types = (int,)
     BUILTINS = [
         a[0]
         for a in inspect.getmembers(builtins)
@@ -27,6 +28,7 @@ if sys.version_info >= (3, 0):
     ]
 else:
     import __builtin__
+    int_types = (int, long)
     BUILTINS = [
         a[0]
         for a in inspect.getmembers(__builtin__)
@@ -136,14 +138,21 @@ class BuiltinsChecker(object):
             for arg in statement.args.args:
                 if isinstance(arg, ast.Name) and \
                         arg.id in BUILTINS:
-                    yield self.error(arg, message=self.argument_msg)
+                    yield self.error(
+                        arg,
+                        message=self.argument_msg,
+                        variable=arg.id
+                    )
 
     def check_for_loop(self, statement):
         stack = [statement.target]
         while stack:
             item = stack.pop()
-            if isinstance(item, ast.Tuple):
+            if isinstance(item, (ast.Tuple, ast.List)):
                 stack.extend(list(item.elts))
+            elif isinstance(item, ast.Attribute):
+                if item.attr in BUILTINS:
+                    yield self.error(statement, variable=item.attr)
             else:
                 if item.id in BUILTINS:
                     yield self.error(statement, variable=item.id)
@@ -216,6 +225,10 @@ class BuiltinsChecker(object):
             line = statement.lineno
         if not column:
             column = statement.col_offset
+
+        # column and line should be integers
+        assert(isinstance(line, int_types))
+        assert(isinstance(column, int_types))
 
         return (
             line,

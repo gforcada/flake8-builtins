@@ -12,6 +12,7 @@ class TestBuiltins(unittest.TestCase):
     def assert_codes(self, ret, codes):
         self.assertEqual(len(ret), len(codes))
         for item, code in zip(ret, codes):
+            print('ITEM', item)
             self.assertTrue(item[2].startswith(code + ' '))
 
     def test_builtin_top_level(self):
@@ -390,6 +391,26 @@ class TestBuiltins(unittest.TestCase):
         checker = BuiltinsChecker(tree, '/home/script.py')
         ret = [c for c in checker.run()]
         self.assertEqual(len(ret), 0)
+
+    def test_list_attribute_assignment_in_for_loop(self):
+        tree = ast.parse(
+            'def bla(self):\n'
+            '    for [self.format, self.y, self.z] in [(1, 2, 3), (4, 5, 6)]:\n'
+            '         pass\n'
+        )
+        checker = BuiltinsChecker(tree, '/home/script.py')
+        ret = [c for c in checker.run()]
+        self.assert_codes(ret, ['A001'])
+
+    def test_tuple_attribute_assignment_in_for_loop(self):
+        tree = ast.parse(
+            'def bla(self):\n'
+            '    for (self.format, self.y, self.z) in [(1, 2, 3), (4, 5, 6)]:\n'
+            '         pass\n'
+        )
+        checker = BuiltinsChecker(tree, '/home/script.py')
+        ret = [c for c in checker.run()]
+        self.assert_codes(ret, ['A001'])
 
     @mock.patch('flake8.utils.stdin_get_value')
     def test_stdin(self, stdin_get_value):
