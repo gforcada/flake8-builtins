@@ -12,7 +12,6 @@ class TestBuiltins(unittest.TestCase):
     def assert_codes(self, ret, codes):
         self.assertEqual(len(ret), len(codes))
         for item, code in zip(ret, codes):
-            print('ITEM', item)
             self.assertTrue(item[2].startswith(code + ' '))
 
     def test_builtin_top_level(self):
