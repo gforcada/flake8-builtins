@@ -51,3 +51,6 @@ zipp==3.1.0 ; python_version >= "3.0"  # via -r requirements.in, importlib-metad
 
 # The following packages are considered to be unsafe in a requirements file:
 # setuptools
+
+# added manually
+mock==3.0.5 ; python_version < '3.0'

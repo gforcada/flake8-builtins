@@ -1,16 +1,21 @@
 # -*- coding: utf-8 -*-
 from flake8_builtins import BuiltinsChecker
-from hypothesis import given
-from hypothesis import reject
 
 import ast
-import mock
 import pytest
 import sys
 import unittest
 
 
+try:
+    from unittest import mock
+except ImportError:
+    import mock
+
+
 if sys.version_info >= (3, 6):
+    from hypothesis import given
+    from hypothesis import reject
     import hypothesmith
 
 
