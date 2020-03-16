@@ -8,4 +8,4 @@ include *requirements.txt
 exclude .installed.cfg
 exclude .coveragerc
 exclude *.pyc
-
+exclude *.in
