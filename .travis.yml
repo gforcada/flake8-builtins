@@ -9,7 +9,8 @@ python:
   - 'pypy3'
 cache: pip
 install:
-  - pip install -r dev-requirements.txt
+  - pip install pip-tools -c requirements.txt
+  - pip-sync requirements.txt
 script:
   - flake8 *.py
   - py.test run_tests.py
