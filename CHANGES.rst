@@ -6,8 +6,8 @@ Changelog
 1.5.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Add `DictComp`, `SetComp`, and `GeneratorExpr` support.
+  [sobolevn]
 
 1.5.1 (2020-03-16)
 ------------------

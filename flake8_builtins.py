@@ -10,12 +10,12 @@ except ImportError:
     from flake8 import utils as stdin_utils
 
 
-WHITE_LIST = [
+WHITE_LIST = {
     '__name__',
     '__doc__',
     'credits',
     '_',
-]
+}
 
 
 if sys.version_info >= (3, 0):
@@ -48,7 +48,7 @@ else:  # There was no walrus operator before python3.8
 
 class BuiltinsChecker(object):
     name = 'flake8_builtins'
-    version = '1.4.1'
+    version = '1.5.2'
     assign_msg = 'A001 "{0}" is a python builtin and is being shadowed, ' \
                  'consider renaming the variable'
     argument_msg = 'A002 "{0}" is used as an argument and thus shadows a ' \
@@ -86,6 +86,13 @@ class BuiltinsChecker(object):
             with_nodes.append(ast.AsyncWith)
         with_nodes = tuple(with_nodes)
 
+        comprehension_nodes = (
+            ast.ListComp,
+            ast.SetComp,
+            ast.DictComp,
+            ast.GeneratorExp,
+        )
+
         value = None
         for statement in ast.walk(tree):
             if isinstance(statement, (ast.Assign, AnnAssign, NamedExpr)):
@@ -103,8 +110,8 @@ class BuiltinsChecker(object):
             elif isinstance(statement, ast.excepthandler):
                 value = self.check_exception(statement)
 
-            elif isinstance(statement, ast.ListComp):
-                value = self.check_list_comprehension(statement)
+            elif isinstance(statement, comprehension_nodes):
+                value = self.check_comprehension(statement)
 
             elif isinstance(statement, (ast.Import, ast.ImportFrom)):
                 value = self.check_import(statement)
@@ -229,7 +236,7 @@ class BuiltinsChecker(object):
         if value in BUILTINS:
             yield self.error(statement, variable=value)
 
-    def check_list_comprehension(self, statement):
+    def check_comprehension(self, statement):
         for generator in statement.generators:
             if isinstance(generator.target, ast.Name) \
                     and generator.target.id in BUILTINS:

@@ -349,9 +349,25 @@ class TestBuiltins(unittest.TestCase):
         self.assertEqual(len(ret), 0)
 
     def test_list_comprehension(self):
-        tree = ast.parse(
-            'a = [int for int in range(3,9)]\n',
-        )
+        tree = ast.parse('a = [int for int in range(3,9)]')
+        checker = BuiltinsChecker(tree, '/home/script.py')
+        ret = [c for c in checker.run()]
+        self.assertEqual(len(ret), 1)
+
+    def test_set_comprehension(self):
+        tree = ast.parse('a = {int for int in range(3,9)}')
+        checker = BuiltinsChecker(tree, '/home/script.py')
+        ret = [c for c in checker.run()]
+        self.assertEqual(len(ret), 1)
+
+    def test_dict_comprehension(self):
+        tree = ast.parse('a = {int:"a" for int in range(3,9)}')
+        checker = BuiltinsChecker(tree, '/home/script.py')
+        ret = [c for c in checker.run()]
+        self.assertEqual(len(ret), 1)
+
+    def test_gen_comprehension(self):
+        tree = ast.parse('a = (int for int in range(3,9))')
         checker = BuiltinsChecker(tree, '/home/script.py')
         ret = [c for c in checker.run()]
         self.assertEqual(len(ret), 1)
@@ -359,6 +375,14 @@ class TestBuiltins(unittest.TestCase):
     def test_list_comprehension_multiple(self):
         tree = ast.parse(
             'a = [(int, list) for int, list in enumerate(range(3,9))]\n',
+        )
+        checker = BuiltinsChecker(tree, '/home/script.py')
+        ret = [c for c in checker.run()]
+        self.assertEqual(len(ret), 2)
+
+    def test_list_comprehension_nested(self):
+        tree = ast.parse(
+            'a = [(int, str) for int in some() for str in other()]\n',
         )
         checker = BuiltinsChecker(tree, '/home/script.py')
         ret = [c for c in checker.run()]

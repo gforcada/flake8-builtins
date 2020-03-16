@@ -14,7 +14,7 @@ long_description = '{0}\n{1}'.format(
 
 setup(
     name='flake8-builtins',
-    version='1.5.2.dev0',
+    version='1.5.2',
     description=short_description,
     long_description=long_description,
     # Get more from https://pypi.org/pypi?%3Aaction=list_classifiers
