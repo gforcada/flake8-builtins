@@ -3,7 +3,7 @@
 Changelog
 =========
 
-1.5.2 (unreleased)
+1.5.2 (2020-03-16)
 ------------------
 
 - Add `DictComp`, `SetComp`, and `GeneratorExpr` support.
