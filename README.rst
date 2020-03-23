@@ -71,7 +71,7 @@ Install with pip::
 
 Requirements
 ------------
-- Python 2.7, 3.5, 3.6
+- Python 2.7, 3.6, 3.7, 3.8
 - flake8
 
 License
