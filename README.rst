@@ -10,7 +10,9 @@ Flake8 Builtins plugin
 ======================
 Check for python builtins being used as variables or parameters.
 
-Imagine some code like this::
+Imagine some code like this:
+
+.. code:: Python
 
     def max_values(list, list2):
         max = list[0]
@@ -47,7 +49,9 @@ the general approach is to **not** do that as code then can suddenly break witho
 
 Example
 -------
-Given the following code::
+Given the following code:
+
+.. code:: Python
 
     def my_method(object, list, dict):
         max = 5
@@ -71,7 +75,7 @@ Install with pip::
 
 Requirements
 ------------
-- Python 2.7, 3.5, 3.6
+- Python 2.7, 3.6, 3.7, 3.8
 - flake8
 
 License
