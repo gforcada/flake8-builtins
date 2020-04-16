@@ -579,4 +579,5 @@ if sys.version_info >= (3, 6):
             raise
         tree = ast.parse(source)
         checker = BuiltinsChecker(tree, '/home/script.py')
-        assert isinstance([c for c in checker.run()], list)
+        for c in checker.run():
+            assert isinstance(c, list)
