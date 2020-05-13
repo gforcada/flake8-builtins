@@ -6,7 +6,7 @@ Changelog
 1.5.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Change messages to have shorter text
 
 
 1.5.2 (2020-03-16)
