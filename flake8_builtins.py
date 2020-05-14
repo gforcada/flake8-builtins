@@ -49,12 +49,9 @@ else:  # There was no walrus operator before python3.8
 class BuiltinsChecker(object):
     name = 'flake8_builtins'
     version = '1.5.2'
-    assign_msg = 'A001 "{0}" is a python builtin and is being shadowed, ' \
-                 'consider renaming the variable'
-    argument_msg = 'A002 "{0}" is used as an argument and thus shadows a ' \
-                   'python builtin, consider renaming the argument'
-    class_attribute_msg = 'A003 "{0}" is a python builtin, consider ' \
-                          'renaming the class attribute'
+    assign_msg = 'A001 variable "{0}" is shadowing a python builtin'
+    argument_msg = 'A002 argument "{0}" is shadowing a python builtin'
+    class_attribute_msg = 'A003 class attribute "{0}" is shadowing a python builtin'
 
     def __init__(self, tree, filename):
         self.tree = tree
