@@ -3,7 +3,7 @@
 Changelog
 =========
 
-1.5.3 (unreleased)
+1.5.3 (2020-05-14)
 ------------------
 
 - Change messages to have shorter text
