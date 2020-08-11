@@ -51,7 +51,8 @@ class BuiltinsChecker(object):
     version = '1.5.2'
     assign_msg = 'A001 variable "{0}" is shadowing a python builtin'
     argument_msg = 'A002 argument "{0}" is shadowing a python builtin'
-    class_attribute_msg = 'A003 class attribute "{0}" is shadowing a python builtin'
+    class_attribute_msg = \
+        'A003 class attribute "{0}" is shadowing a python builtin'
 
     def __init__(self, tree, filename):
         self.tree = tree
