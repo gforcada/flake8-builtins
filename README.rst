@@ -86,6 +86,22 @@ Requirements
 - Python 3.7, 3.8, 3.9, 3.10, 3.11, and pypy3
 - flake8
 
+Rules
+-----
+
+A001:
+  variable is shadowing a python builtin
+
+A002:
+  argument is shadowing a python builtin
+
+A003 [1]_:
+  class attribute is shadowing a python builtin
+
+.. [1] This rule is disabled by default. You can add it to the `extend-select
+       <https://flake8.pycqa.org/en/latest/user/options.html#cmdoption-flake8-extend-select>`_
+       section in your flake8 config file to enable it.
+
 License
 -------
 GPL 2.0

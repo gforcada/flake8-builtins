@@ -39,6 +39,8 @@ class BuiltinsChecker:
             comma_separated_list=True,
             help='A comma separated list of builtins to skip checking',
         )
+        if "A003" not in option_manager.extended_default_ignore:
+            option_manager.extend_default_ignore(["A003"])
 
     @classmethod
     def parse_options(cls, options):
