@@ -1,7 +1,7 @@
 .. -*- coding: utf-8 -*-
 
-.. image:: https://travis-ci.org/gforcada/flake8-builtins.svg?branch=master
-   :target: https://travis-ci.org/gforcada/flake8-builtins
+.. image:: https://github.com/gforcada/flake8-builtins/actions/workflows/lint_python.yml/badge.svg?event=push
+   :target: https://github.com/gforcada/flake8-builtins/actions/workflows/lint_python.yml
 
 .. image:: https://coveralls.io/repos/gforcada/flake8-builtins/badge.svg?branch=master
    :target: https://coveralls.io/github/gforcada/flake8-builtins?branch=master
