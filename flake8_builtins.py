@@ -13,7 +13,8 @@ WHITE_LIST = {
 }
 
 
-BUILTINS = [a[0] for a in inspect.getmembers(builtins) if a[0] not in WHITE_LIST]
+# Will be initialized in `BuiltinsChecker.parse_options`
+BUILTINS = None
 
 if sys.version_info >= (3, 8):
     NamedExpr = ast.NamedExpr
@@ -31,6 +32,25 @@ class BuiltinsChecker:
     def __init__(self, tree, filename):
         self.tree = tree
         self.filename = filename
+
+    def add_options(option_manager):
+        option_manager.add_option(
+            '--builtins-whitelist',
+            metavar='builtins',
+            parse_from_config=True,
+            comma_separated_list=True,
+            help='A comma separated list of builtins to skip checking',
+        )
+
+    def parse_options(option_manager, options, args):
+        global BUILTINS
+
+        if options.builtins_whitelist is not None:
+            WHITE_LIST.update(options.builtins_whitelist)
+
+        BUILTINS = [
+            a[0] for a in inspect.getmembers(builtins) if a[0] not in WHITE_LIST
+        ]
 
     def run(self):
         tree = self.tree
