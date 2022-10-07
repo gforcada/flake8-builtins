@@ -16,6 +16,7 @@ except ImportError:
 if sys.version_info >= (3, 6):
     from hypothesis import given
     from hypothesis import reject
+
     import hypothesmith
 
 
@@ -53,8 +54,7 @@ class TestBuiltins(unittest.TestCase):
 
     def test_nested(self):
         tree = ast.parse(
-            'def bla():\n'
-            '    filter = 4',
+            'def bla():\n' '    filter = 4',
         )
         checker = BuiltinsChecker(tree, '/home/script.py')
         ret = [c for c in checker.run()]
@@ -62,9 +62,7 @@ class TestBuiltins(unittest.TestCase):
 
     def test_more_nested(self):
         tree = ast.parse(
-            'class Bla(object):\n'
-            '    def method(self):\n'
-            '        int = 4',
+            'class Bla(object):\n' '    def method(self):\n' '        int = 4',
         )
         checker = BuiltinsChecker(tree, '/home/script.py')
         ret = [c for c in checker.run()]
@@ -72,8 +70,7 @@ class TestBuiltins(unittest.TestCase):
 
     def test_line_number(self):
         tree = ast.parse(
-            'a = 2\n'
-            'open = 4',
+            'a = 2\n' 'open = 4',
         )
         checker = BuiltinsChecker(tree, '/home/script.py')
         ret = [c for c in checker.run()]
@@ -81,8 +78,7 @@ class TestBuiltins(unittest.TestCase):
 
     def test_offset(self):
         tree = ast.parse(
-            'def bla():\n'
-            '    zip = 4',
+            'def bla():\n' '    zip = 4',
         )
         checker = BuiltinsChecker(tree, '/home/script.py')
         ret = [c for c in checker.run()]
@@ -180,8 +176,7 @@ class TestBuiltins(unittest.TestCase):
 
     def test_ignore_whitelisted_names(self):
         tree = ast.parse(
-            'class MyClass(object):\n'
-            '    __name__ = 4\n',
+            'class MyClass(object):\n' '    __name__ = 4\n',
         )
         checker = BuiltinsChecker(tree, '/home/script.py')
         ret = [c for c in checker.run()]
@@ -189,8 +184,7 @@ class TestBuiltins(unittest.TestCase):
 
     def test_for_loop_variable(self):
         tree = ast.parse(
-            'for format in (1, 2, 3):\n'
-            '        continue\n',
+            'for format in (1, 2, 3):\n' '        continue\n',
         )
         checker = BuiltinsChecker(tree, '/home/script.py')
         ret = [c for c in checker.run()]
@@ -198,8 +192,7 @@ class TestBuiltins(unittest.TestCase):
 
     def test_for_loop_multiple_variables(self):
         tree = ast.parse(
-            'for (index, format) in enumerate([1,2,3,]):\n'
-            '        continue\n',
+            'for (index, format) in enumerate([1,2,3,]):\n' '        continue\n',
         )
         checker = BuiltinsChecker(tree, '/home/script.py')
         ret = [c for c in checker.run()]
@@ -207,8 +200,7 @@ class TestBuiltins(unittest.TestCase):
 
     def test_for_loop_list(self):
         tree = ast.parse(
-            'for [index, format] in enumerate([1,2,3,]):\n'
-            '        continue\n',
+            'for [index, format] in enumerate([1,2,3,]):\n' '        continue\n',
         )
         checker = BuiltinsChecker(tree, '/home/script.py')
         ret = [c for c in checker.run()]
@@ -251,8 +243,7 @@ class TestBuiltins(unittest.TestCase):
 
     def test_with_statement(self):
         tree = ast.parse(
-            'with open("bla.txt") as dir:\n'
-            '    continue\n',
+            'with open("bla.txt") as dir:\n' '    continue\n',
         )
         checker = BuiltinsChecker(tree, '/home/script.py')
         ret = [c for c in checker.run()]
@@ -260,8 +251,7 @@ class TestBuiltins(unittest.TestCase):
 
     def test_with_statement_no_error(self):
         tree = ast.parse(
-            'with open("bla.txt"):\n'
-            '    continue\n',
+            'with open("bla.txt"):\n' '    continue\n',
         )
         checker = BuiltinsChecker(tree, '/home/script.py')
         ret = [c for c in checker.run()]
@@ -269,8 +259,7 @@ class TestBuiltins(unittest.TestCase):
 
     def test_with_statement_multiple(self):
         tree = ast.parse(
-            'with open("bla.txt") as dir, open("bla.txt") as int:\n'
-            '    continue\n',
+            'with open("bla.txt") as dir, open("bla.txt") as int:\n' '    continue\n',
         )
         checker = BuiltinsChecker(tree, '/home/script.py')
         ret = [c for c in checker.run()]
@@ -278,8 +267,7 @@ class TestBuiltins(unittest.TestCase):
 
     def test_with_statement_unpack(self):
         tree = ast.parse(
-            'with open("bla.txt") as (dir, bla):\n'
-            '    continue\n',
+            'with open("bla.txt") as (dir, bla):\n' '    continue\n',
         )
         checker = BuiltinsChecker(tree, '/home/script.py')
         ret = [c for c in checker.run()]
@@ -287,8 +275,7 @@ class TestBuiltins(unittest.TestCase):
 
     def test_with_statement_unpack_on_list(self):
         tree = ast.parse(
-            'with open("bla.txt") as [dir, bla]:\n'
-            '    continue\n',
+            'with open("bla.txt") as [dir, bla]:\n' '    continue\n',
         )
         checker = BuiltinsChecker(tree, '/home/script.py')
         ret = [c for c in checker.run()]
@@ -300,8 +287,7 @@ class TestBuiltins(unittest.TestCase):
     )
     def test_with_statement_unpack_star(self):
         tree = ast.parse(
-            'with open("bla.txt") as (bla, *int):\n'
-            '    continue\n',
+            'with open("bla.txt") as (bla, *int):\n' '    continue\n',
         )
         checker = BuiltinsChecker(tree, '/home/script.py')
         ret = [c for c in checker.run()]
@@ -313,10 +299,7 @@ class TestBuiltins(unittest.TestCase):
     )
     def test_exception_py3(self):
         tree = ast.parse(
-            'try:\n'
-            '    a = 2\n'
-            'except Exception as int:\n'
-            '    print("ooops")\n',
+            'try:\n' '    a = 2\n' 'except Exception as int:\n' '    print("ooops")\n',
         )
         checker = BuiltinsChecker(tree, '/home/script.py')
         ret = [c for c in checker.run()]
@@ -328,10 +311,7 @@ class TestBuiltins(unittest.TestCase):
     )
     def test_exception_py2(self):
         tree = ast.parse(
-            'try:\n'
-            '    a = 2\n'
-            'except Exception, int:\n'
-            '    print("ooops")\n',
+            'try:\n' '    a = 2\n' 'except Exception, int:\n' '    print("ooops")\n',
         )
         checker = BuiltinsChecker(tree, '/home/script.py')
         ret = [c for c in checker.run()]
@@ -339,10 +319,7 @@ class TestBuiltins(unittest.TestCase):
 
     def test_exception_no_error(self):
         tree = ast.parse(
-            'try:\n'
-            '    a = 2\n'
-            'except Exception:\n'
-            '    print("ooops")\n',
+            'try:\n' '    a = 2\n' 'except Exception:\n' '    print("ooops")\n',
         )
         checker = BuiltinsChecker(tree, '/home/script.py')
         ret = [c for c in checker.run()]
@@ -466,8 +443,7 @@ class TestBuiltins(unittest.TestCase):
 
     def test_method(self):
         tree = ast.parse(
-            'class bla(object):\n'
-            '    def int(): pass\n',
+            'class bla(object):\n' '    def int(): pass\n',
         )
         checker = BuiltinsChecker(tree, '/home/script.py')
         ret = [c for c in checker.run()]
@@ -475,8 +451,7 @@ class TestBuiltins(unittest.TestCase):
 
     def test_method_error_code(self):
         tree = ast.parse(
-            'class bla(object):\n'
-            '    def int(): pass\n',
+            'class bla(object):\n' '    def int(): pass\n',
         )
         checker = BuiltinsChecker(tree, '/home/script.py')
         ret = [c for c in checker.run()]
@@ -497,9 +472,7 @@ class TestBuiltins(unittest.TestCase):
     )
     def test_async_for(self):
         tree = ast.parse(
-            'async def bla():\n'
-            '    async for int in range(4):\n'
-            '        pass\n',
+            'async def bla():\n' '    async for int in range(4):\n' '        pass\n',
         )
         checker = BuiltinsChecker(tree, '/home/script.py')
         ret = [c for c in checker.run()]
@@ -511,9 +484,7 @@ class TestBuiltins(unittest.TestCase):
     )
     def test_async_for_nothing(self):
         tree = ast.parse(
-            'async def bla():\n'
-            '    async for x in range(4):\n'
-            '        pass\n',
+            'async def bla():\n' '    async for x in range(4):\n' '        pass\n',
         )
         checker = BuiltinsChecker(tree, '/home/script.py')
         ret = [c for c in checker.run()]
@@ -570,6 +541,7 @@ class TestBuiltins(unittest.TestCase):
 
 
 if sys.version_info >= (3, 6):
+
     @given(source_code=hypothesmith.from_grammar())
     def test_builtin_works_on_many_examples(source_code):
         try:

@@ -2,8 +2,7 @@
 from setuptools import setup
 
 
-short_description = \
-    'Check for python builtins being used as variables or parameters.'
+short_description = 'Check for python builtins being used as variables or parameters.'
 
 
 long_description = '{0}\n{1}'.format(

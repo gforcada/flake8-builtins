@@ -20,30 +20,24 @@ WHITE_LIST = {
 
 if sys.version_info >= (3, 0):
     import builtins
-    BUILTINS = [
-        a[0]
-        for a in inspect.getmembers(builtins)
-        if a[0] not in WHITE_LIST
-    ]
+
+    BUILTINS = [a[0] for a in inspect.getmembers(builtins) if a[0] not in WHITE_LIST]
     PY3 = True
 else:
     import __builtin__
-    BUILTINS = [
-        a[0]
-        for a in inspect.getmembers(__builtin__)
-        if a[0] not in WHITE_LIST
-    ]
+
+    BUILTINS = [a[0] for a in inspect.getmembers(__builtin__) if a[0] not in WHITE_LIST]
     PY3 = False
 
 if sys.version_info >= (3, 6):
     AnnAssign = ast.AnnAssign
 else:  # There was no `AnnAssign` before python3.6
-    AnnAssign = type('AnnAssign', (ast.AST, ), {})
+    AnnAssign = type('AnnAssign', (ast.AST,), {})
 
 if sys.version_info >= (3, 8):
     NamedExpr = ast.NamedExpr
 else:  # There was no walrus operator before python3.8
-    NamedExpr = type('NamedExpr', (ast.AST, ), {})
+    NamedExpr = type('NamedExpr', (ast.AST,), {})
 
 
 class BuiltinsChecker(object):
@@ -51,8 +45,7 @@ class BuiltinsChecker(object):
     version = '1.5.2'
     assign_msg = 'A001 variable "{0}" is shadowing a python builtin'
     argument_msg = 'A002 argument "{0}" is shadowing a python builtin'
-    class_attribute_msg = \
-        'A003 class attribute "{0}" is shadowing a python builtin'
+    class_attribute_msg = 'A003 class attribute "{0}" is shadowing a python builtin'
 
     def __init__(self, tree, filename):
         self.tree = tree
@@ -135,8 +128,7 @@ class BuiltinsChecker(object):
             item = stack.pop()
             if isinstance(item, (ast.Tuple, ast.List)):
                 stack.extend(list(item.elts))
-            elif isinstance(item, ast.Name) and \
-                    item.id in BUILTINS:
+            elif isinstance(item, ast.Name) and item.id in BUILTINS:
                 yield self.error(item, message=msg, variable=item.id)
             elif PY3 and isinstance(item, ast.Starred):
                 if hasattr(item.value, 'id') and item.value.id in BUILTINS:
@@ -163,8 +155,7 @@ class BuiltinsChecker(object):
             all_arguments.extend(getattr(statement.args, 'posonlyargs', []))
 
             for arg in all_arguments:
-                if isinstance(arg, ast.arg) and \
-                        arg.arg in BUILTINS:
+                if isinstance(arg, ast.arg) and arg.arg in BUILTINS:
                     yield self.error(
                         arg,
                         message=self.argument_msg,
@@ -172,8 +163,7 @@ class BuiltinsChecker(object):
                     )
         else:
             for arg in statement.args.args:
-                if isinstance(arg, ast.Name) and \
-                        arg.id in BUILTINS:
+                if isinstance(arg, ast.Name) and arg.id in BUILTINS:
                     yield self.error(arg, message=self.argument_msg)
 
     def check_for_loop(self, statement):
@@ -182,8 +172,7 @@ class BuiltinsChecker(object):
             item = stack.pop()
             if isinstance(item, (ast.Tuple, ast.List)):
                 stack.extend(list(item.elts))
-            elif isinstance(item, ast.Name) and \
-                    item.id in BUILTINS:
+            elif isinstance(item, ast.Name) and item.id in BUILTINS:
                 yield self.error(statement, variable=item.id)
             elif PY3 and isinstance(item, ast.Starred):
                 if hasattr(item.value, 'id') and item.value.id in BUILTINS:
@@ -199,8 +188,7 @@ class BuiltinsChecker(object):
             var = statement.optional_vars
             if isinstance(var, (ast.Tuple, ast.List)):
                 for element in var.elts:
-                    if isinstance(element, ast.Name) and \
-                            element.id in BUILTINS:
+                    if isinstance(element, ast.Name) and element.id in BUILTINS:
                         yield self.error(statement, variable=element.id)
 
             elif isinstance(var, ast.Name) and var.id in BUILTINS:
@@ -210,11 +198,12 @@ class BuiltinsChecker(object):
                 var = item.optional_vars
                 if isinstance(var, (ast.Tuple, ast.List)):
                     for element in var.elts:
-                        if isinstance(element, ast.Name) and \
-                                element.id in BUILTINS:
+                        if isinstance(element, ast.Name) and element.id in BUILTINS:
                             yield self.error(statement, variable=element.id)
-                        elif isinstance(element, ast.Starred) and \
-                                element.value.id in BUILTINS:
+                        elif (
+                            isinstance(element, ast.Starred)
+                            and element.value.id in BUILTINS
+                        ):
                             yield self.error(
                                 element,
                                 variable=element.value.id,
@@ -236,14 +225,18 @@ class BuiltinsChecker(object):
 
     def check_comprehension(self, statement):
         for generator in statement.generators:
-            if isinstance(generator.target, ast.Name) \
-                    and generator.target.id in BUILTINS:
+            if (
+                isinstance(generator.target, ast.Name)
+                and generator.target.id in BUILTINS
+            ):
                 yield self.error(statement, variable=generator.target.id)
 
             elif isinstance(generator.target, (ast.Tuple, ast.List)):
                 for tuple_element in generator.target.elts:
-                    if isinstance(tuple_element, ast.Name) and \
-                            tuple_element.id in BUILTINS:
+                    if (
+                        isinstance(tuple_element, ast.Name)
+                        and tuple_element.id in BUILTINS
+                    ):
                         yield self.error(statement, variable=tuple_element.id)
 
     def check_import(self, statement):
