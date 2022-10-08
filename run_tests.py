@@ -1,17 +1,12 @@
-# -*- coding: utf-8 -*-
-from flake8_builtins import BuiltinsChecker
-
 import ast
-import pytest
 import sys
 import textwrap
 import unittest
+from unittest import mock
 
+import pytest
 
-try:
-    from unittest import mock
-except ImportError:
-    import mock
+from flake8_builtins import BuiltinsChecker
 
 
 class TestBuiltins(unittest.TestCase):

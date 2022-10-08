@@ -1,11 +1,9 @@
-# -*- coding: utf-8 -*-
 import ast
 import builtins
 import inspect
 import sys
 
 from flake8 import utils as stdin_utils
-
 
 WHITE_LIST = {
     '__name__',
@@ -23,7 +21,7 @@ else:  # There was no walrus operator before python3.8
     NamedExpr = type('NamedExpr', (ast.AST,), {})
 
 
-class BuiltinsChecker(object):
+class BuiltinsChecker:
     name = 'flake8_builtins'
     version = '1.5.2'
     assign_msg = 'A001 variable "{0}" is shadowing a python builtin'
@@ -94,8 +92,7 @@ class BuiltinsChecker(object):
                 value = self.check_class(statement)
 
             if value:
-                for line, offset, msg, rtype in value:
-                    yield line, offset, msg, rtype
+                yield from value
 
     def check_assignment(self, statement):
         msg = self.assign_msg

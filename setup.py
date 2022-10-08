@@ -1,14 +1,18 @@
-# -*- coding: utf-8 -*-
 from setuptools import setup
-
 
 short_description = 'Check for python builtins being used as variables or parameters.'
 
 
-long_description = '{0}\n{1}'.format(
-    open('README.rst').read(),
-    open('CHANGES.rst').read(),
-)
+def read_file(filename):
+    with open(filename) as file_obj:
+        file_contents = file_obj.read()
+    return file_contents
+
+
+long_description = f"""
+{read_file('README.rst')}
+{read_file('CHANGES.rst')}
+"""
 
 
 setup(
