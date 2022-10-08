@@ -1,6 +1,6 @@
 .. -*- coding: utf-8 -*-
 
-.. image:: https://github.com/gforcada/flake8-builtins/actions/workflows/testing.yml/badge.svg?event=push
+.. image:: https://github.com/gforcada/flake8-builtins/actions/workflows/testing.yml/badge.svg?branch=master
    :target: https://github.com/gforcada/flake8-builtins/actions/workflows/testing.yml
 
 .. image:: https://coveralls.io/repos/gforcada/flake8-builtins/badge.svg?branch=master
