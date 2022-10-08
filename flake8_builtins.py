@@ -5,7 +5,7 @@ import sys
 
 from flake8 import utils as stdin_utils
 
-WHITE_LIST = {
+IGNORE_LIST = {
     '__name__',
     '__doc__',
     'credits',
@@ -35,7 +35,7 @@ class BuiltinsChecker:
 
     def add_options(option_manager):
         option_manager.add_option(
-            '--builtins-whitelist',
+            '--builtins-ignorelist',
             metavar='builtins',
             parse_from_config=True,
             comma_separated_list=True,
@@ -45,11 +45,11 @@ class BuiltinsChecker:
     def parse_options(option_manager, options, args):
         global BUILTINS
 
-        if options.builtins_whitelist is not None:
-            WHITE_LIST.update(options.builtins_whitelist)
+        if options.builtins_ignorelist is not None:
+            IGNORE_LIST.update(options.builtins_ignorelist)
 
         BUILTINS = [
-            a[0] for a in inspect.getmembers(builtins) if a[0] not in WHITE_LIST
+            a[0] for a in inspect.getmembers(builtins) if a[0] not in IGNORE_LIST
         ]
 
     def run(self):
