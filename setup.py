@@ -51,11 +51,7 @@ setup(
     ],
     extras_require={
         'test': [
-            'coverage',
-            'coveralls',
-            'mock',
             'pytest',
-            'pytest-cov',
         ],
     },
     entry_points={

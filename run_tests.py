@@ -13,13 +13,6 @@ except ImportError:
     import mock
 
 
-if sys.version_info >= (3, 6):
-    from hypothesis import given
-    from hypothesis import reject
-
-    import hypothesmith
-
-
 class TestBuiltins(unittest.TestCase):
     def assert_codes(self, ret, codes):
         self.assertEqual(len(ret), len(codes))
@@ -538,18 +531,3 @@ class TestBuiltins(unittest.TestCase):
         checker = BuiltinsChecker(tree, '/home/script.py')
         ret = [c for c in checker.run()]
         self.assertEqual(len(ret), 0)
-
-
-if sys.version_info >= (3, 6):
-
-    @given(source_code=hypothesmith.from_grammar())
-    def test_builtin_works_on_many_examples(source_code):
-        try:
-            source = source_code.encode('utf-8-sig')
-        except UnicodeEncodeError:
-            reject()
-            raise
-        tree = ast.parse(source)
-        checker = BuiltinsChecker(tree, '/home/script.py')
-        for c in checker.run():
-            assert isinstance(c, list)
