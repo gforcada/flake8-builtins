@@ -3,7 +3,7 @@
 Changelog
 =========
 
-1.5.4 (unreleased)
+2.0.0 (2022-10-08)
 ------------------
 
 - Mark support for python 3.9. [lovetoburnswhen]
