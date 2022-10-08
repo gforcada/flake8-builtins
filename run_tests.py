@@ -25,10 +25,6 @@ class TestBuiltins(unittest.TestCase):
         ret = [c for c in checker.run()]
         self.assert_codes(ret, ['A001'])
 
-    @pytest.mark.skipif(
-        sys.version_info < (3, 6),
-        reason='AnnAssign appeared in 3.6',
-    )
     def test_ann_assign(self):
         tree = ast.parse('list: int = 1')
         checker = BuiltinsChecker(tree, '/home/script.py')
@@ -83,10 +79,6 @@ class TestBuiltins(unittest.TestCase):
         ret = [c for c in checker.run()]
         self.assert_codes(ret, ['A001'])
 
-    @pytest.mark.skipif(
-        sys.version_info < (3, 0),
-        reason='This syntax is only valid in Python 3.x',
-    )
     def test_assignment_starred(self):
         tree = ast.parse('bla, *int = range(4)')
         checker = BuiltinsChecker(tree, '/home/script.py')
@@ -117,10 +109,6 @@ class TestBuiltins(unittest.TestCase):
         ret = [c for c in checker.run()]
         self.assert_codes(ret, ['A002'])
 
-    @pytest.mark.skipif(
-        sys.version_info < (3, 6),
-        reason='This syntax is only valid in Python 3.6+',
-    )
     def test_kwonly_argument_message(self):
         tree = ast.parse('def bla(*, list):\n    a = 4')
         checker = BuiltinsChecker(tree, '/home/script.py')
@@ -208,10 +196,6 @@ class TestBuiltins(unittest.TestCase):
         ret = [c for c in checker.run()]
         self.assertEqual(len(ret), 2)
 
-    @pytest.mark.skipif(
-        sys.version_info < (3, 0),
-        reason='This syntax is only valid in Python 3.x',
-    )
     def test_for_loop_starred(self):
         tree = ast.parse(
             'for index, *int in enumerate([(1, "a"), (2, "b")]):\n'
@@ -221,10 +205,6 @@ class TestBuiltins(unittest.TestCase):
         ret = [c for c in checker.run()]
         self.assertEqual(len(ret), 1)
 
-    @pytest.mark.skipif(
-        sys.version_info < (3, 0),
-        reason='This syntax is only valid in Python 3.x',
-    )
     def test_for_loop_starred_no_error(self):
         tree = ast.parse(
             'for index, *other in enumerate([(1, "a"), (2, "b")]):\n'
@@ -274,10 +254,6 @@ class TestBuiltins(unittest.TestCase):
         ret = [c for c in checker.run()]
         self.assertEqual(len(ret), 1)
 
-    @pytest.mark.skipif(
-        sys.version_info < (3, 0),
-        reason='This syntax is only valid in Python 3.x',
-    )
     def test_with_statement_unpack_star(self):
         tree = ast.parse(
             'with open("bla.txt") as (bla, *int):\n' '    continue\n',
@@ -286,25 +262,9 @@ class TestBuiltins(unittest.TestCase):
         ret = [c for c in checker.run()]
         self.assertEqual(len(ret), 1)
 
-    @pytest.mark.skipif(
-        sys.version_info < (3, 0),
-        reason='This syntax is only valid in Python 3.x',
-    )
     def test_exception_py3(self):
         tree = ast.parse(
             'try:\n' '    a = 2\n' 'except Exception as int:\n' '    print("ooops")\n',
-        )
-        checker = BuiltinsChecker(tree, '/home/script.py')
-        ret = [c for c in checker.run()]
-        self.assertEqual(len(ret), 1)
-
-    @pytest.mark.skipif(
-        sys.version_info > (3, 0),
-        reason='This syntax is only valid in Python 2.x',
-    )
-    def test_exception_py2(self):
-        tree = ast.parse(
-            'try:\n' '    a = 2\n' 'except Exception, int:\n' '    print("ooops")\n',
         )
         checker = BuiltinsChecker(tree, '/home/script.py')
         ret = [c for c in checker.run()]
@@ -422,10 +382,6 @@ class TestBuiltins(unittest.TestCase):
         ret = [c for c in checker.run()]
         self.assertEqual(len(ret), 1)
 
-    @pytest.mark.skipif(
-        sys.version_info < (3, 5),
-        reason='This syntax is only valid in Python 3.5',
-    )
     def test_async_function(self):
         tree = ast.parse(
             'async def int(): pass\n',
@@ -459,10 +415,6 @@ class TestBuiltins(unittest.TestCase):
         ret = [c for c in checker.run()]
         self.assertEqual(len(ret), 0)
 
-    @pytest.mark.skipif(
-        sys.version_info < (3, 5),
-        reason='This syntax is only valid in Python 3.x',
-    )
     def test_async_for(self):
         tree = ast.parse(
             'async def bla():\n' '    async for int in range(4):\n' '        pass\n',
@@ -471,10 +423,6 @@ class TestBuiltins(unittest.TestCase):
         ret = [c for c in checker.run()]
         self.assertEqual(len(ret), 1)
 
-    @pytest.mark.skipif(
-        sys.version_info < (3, 5),
-        reason='This syntax is only valid in Python 3.x',
-    )
     def test_async_for_nothing(self):
         tree = ast.parse(
             'async def bla():\n' '    async for x in range(4):\n' '        pass\n',
@@ -483,10 +431,6 @@ class TestBuiltins(unittest.TestCase):
         ret = [c for c in checker.run()]
         self.assertEqual(len(ret), 0)
 
-    @pytest.mark.skipif(
-        sys.version_info < (3, 5),
-        reason='This syntax is only valid in Python 3.x',
-    )
     def test_async_with(self):
         tree = ast.parse(
             'async def bla():\n'
@@ -497,10 +441,6 @@ class TestBuiltins(unittest.TestCase):
         ret = [c for c in checker.run()]
         self.assertEqual(len(ret), 1)
 
-    @pytest.mark.skipif(
-        sys.version_info < (3, 5),
-        reason='This syntax is only valid in Python 3.x',
-    )
     def test_async_with_nothing(self):
         tree = ast.parse(
             'async def bla():\n'
@@ -522,10 +462,6 @@ class TestBuiltins(unittest.TestCase):
             1,
         )
 
-    @pytest.mark.skipif(
-        sys.version_info < (3, 5),
-        reason='This syntax is only valid in Python 3.x',
-    )
     def test_tuple_unpacking(self):
         tree = ast.parse('a, *(b, c) = 1, 2, 3')
         checker = BuiltinsChecker(tree, '/home/script.py')
