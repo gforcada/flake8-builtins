@@ -4,7 +4,7 @@
 .cache
 .coverage
 .installed.cfg
-.tox
+.hypothesis
 bin
 develop-eggs
 include

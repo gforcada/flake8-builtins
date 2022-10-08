@@ -14,6 +14,10 @@ Changelog
 
 - Make black and isort mandatory. [cclauss]
 
+- Drop python 2.7 and 3.6. [gforcada]
+
+- Overhaul GitHub actions to test on actual supported python versions. [gforcada]
+
 1.5.3 (2020-05-14)
 ------------------
 
