@@ -6,8 +6,7 @@ Changelog
 2.0.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Add official support for python 3.10. [gforcada]
 
 2.0.0 (2022-10-08)
 ------------------
