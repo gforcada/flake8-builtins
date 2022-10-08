@@ -9,19 +9,33 @@ import pytest
 from flake8_builtins import BuiltinsChecker
 
 
+class FakeOptions:
+    builtins_ignorelist = []
+
+    def __init__(self, ignore_list=''):
+        if ignore_list:
+            self.builtins_ignorelist = ignore_list
+
+
 class TestBuiltins(unittest.TestCase):
-    def check_code(self, source, expected_codes=None):
+    def check_code(self, source, expected_codes=None, ignore_list=None):
         """Check if the given source code generates the given flake8 errors
 
         If `expected_codes` is a string is converted to a list,
         if it is not given, then it is expected to **not** generate any error.
+
+        If `ignore_list` is provided, it should be a list of names
+        that will be ignored if found, as if they were a builtin.
         """
         if isinstance(expected_codes, str):
             expected_codes = [expected_codes]
         elif expected_codes is None:
             expected_codes = []
+        if ignore_list is None:
+            ignore_list = []
         tree = ast.parse(textwrap.dedent(source))
         checker = BuiltinsChecker(tree, '/home/script.py')
+        checker.parse_options(FakeOptions(ignore_list=ignore_list), None)
         return_statements = list(checker.run())
 
         self.assertEqual(
@@ -169,12 +183,16 @@ class TestBuiltins(unittest.TestCase):
         """
         self.check_code(source, ['A001', 'A001'])
 
-    def test_ignore_whitelisted_names(self):
+    def test_default_ignored_names(self):
         source = """
         class MyClass(object):
             __name__ = 4
         """
         self.check_code(source)
+
+    def test_custom_ignored_names(self):
+        source = 'copyright = 4'
+        self.check_code(source, ignore_list=('copyright',))
 
     def test_for_loop_variable(self):
         source = """
