@@ -18,6 +18,8 @@ Changelog
 
 - Overhaul GitHub actions to test on actual supported python versions. [gforcada]
 
+- New flake8 option `--builtins-ignorelist` to specify a list of builtins to ignore. [gsingh93]
+
 1.5.3 (2020-05-14)
 ------------------
 
