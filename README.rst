@@ -73,6 +73,14 @@ Install with pip::
 
     $ pip install flake8-builtins
 
+Options
+-------
+
+One can use `--builtins-ignorelist` option, or configuration option,
+to ignore a custom list of builtins::
+
+    $ flake8 --builtins-ignorelist id,copyright *.py
+
 Requirements
 ------------
 - Python 3.7, 3.8, 3.9
