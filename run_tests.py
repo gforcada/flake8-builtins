@@ -2,7 +2,6 @@ import ast
 import sys
 import textwrap
 import unittest
-from unittest import mock
 
 import pytest
 
@@ -385,7 +384,7 @@ class TestBuiltins(unittest.TestCase):
         """
         self.check_code(source)
 
-    @mock.patch('flake8.utils.stdin_get_value')
+    @unittest.mock.patch('flake8.utils.stdin_get_value')
     def test_stdin(self, stdin_get_value):
         source = 'max = 4'
         stdin_get_value.return_value = source
