@@ -6,8 +6,13 @@ Changelog
 1.5.4 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Mark support for python 3.9. [lovetoburnswhen]
 
+- Replace travis for GitHub. [cclauss]
+
+- Fix CI badge. [sobolevn]
+
+- Make black and isort mandatory. [cclauss]
 
 1.5.3 (2020-05-14)
 ------------------
