@@ -227,26 +227,13 @@ class BuiltinsChecker:
         if statement.name in self.names:
             yield self.error(statement, variable=statement.name)
 
-    def error(
-        self,
-        statement,
-        message=None,
-        variable=None,
-        line=None,
-        column=None,
-    ):
+    def error(self, statement, variable, message=None):
         if not message:
             message = self.assign_msg
-        if not variable:
-            variable = statement.id
-        if not line:
-            line = statement.lineno
-        if not column:
-            column = statement.col_offset
 
         return (
-            line,
-            column,
+            statement.lineno,
+            statement.col_offset,
             message.format(variable),
             type(self),
         )
