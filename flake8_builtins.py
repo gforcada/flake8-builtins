@@ -5,17 +5,6 @@ import sys
 
 from flake8 import utils as stdin_utils
 
-IGNORE_LIST = {
-    '__name__',
-    '__doc__',
-    'credits',
-    '_',
-}
-
-
-# Will be initialized in `BuiltinsChecker.parse_options`
-BUILTINS = None
-
 if sys.version_info >= (3, 8):
     NamedExpr = ast.NamedExpr
 else:  # There was no walrus operator before python3.8
@@ -29,11 +18,20 @@ class BuiltinsChecker:
     argument_msg = 'A002 argument "{0}" is shadowing a python builtin'
     class_attribute_msg = 'A003 class attribute "{0}" is shadowing a python builtin'
 
+    names = []
+    ignore_list = {
+        '__name__',
+        '__doc__',
+        'credits',
+        '_',
+    }
+
     def __init__(self, tree, filename):
         self.tree = tree
         self.filename = filename
 
-    def add_options(option_manager):
+    @classmethod
+    def add_options(cls, option_manager):
         option_manager.add_option(
             '--builtins-ignorelist',
             metavar='builtins',
@@ -42,15 +40,14 @@ class BuiltinsChecker:
             help='A comma separated list of builtins to skip checking',
         )
 
-    def parse_options(option_manager, options, args):
-        global BUILTINS
-
+    @classmethod
+    def parse_options(cls, options):
         if options.builtins_ignorelist is not None:
-            IGNORE_LIST.update(options.builtins_ignorelist)
+            cls.ignore_list.update(options.builtins_ignorelist)
 
-        BUILTINS = [
-            a[0] for a in inspect.getmembers(builtins) if a[0] not in IGNORE_LIST
-        ]
+        cls.names = {
+            a[0] for a in inspect.getmembers(builtins) if a[0] not in cls.ignore_list
+        }
 
     def run(self):
         tree = self.tree
@@ -128,10 +125,10 @@ class BuiltinsChecker:
             item = stack.pop()
             if isinstance(item, (ast.Tuple, ast.List)):
                 stack.extend(list(item.elts))
-            elif isinstance(item, ast.Name) and item.id in BUILTINS:
+            elif isinstance(item, ast.Name) and item.id in self.names:
                 yield self.error(item, message=msg, variable=item.id)
             elif isinstance(item, ast.Starred):
-                if hasattr(item.value, 'id') and item.value.id in BUILTINS:
+                if hasattr(item.value, 'id') and item.value.id in self.names:
                     yield self.error(
                         statement,
                         message=msg,
@@ -141,7 +138,7 @@ class BuiltinsChecker:
                     stack.extend(list(item.value.elts))
 
     def check_function_definition(self, statement):
-        if statement.name in BUILTINS:
+        if statement.name in self.names:
             msg = self.assign_msg
             if type(statement.__flake8_builtins_parent) is ast.ClassDef:
                 msg = self.class_attribute_msg
@@ -154,7 +151,7 @@ class BuiltinsChecker:
         all_arguments.extend(getattr(statement.args, 'posonlyargs', []))
 
         for arg in all_arguments:
-            if isinstance(arg, ast.arg) and arg.arg in BUILTINS:
+            if isinstance(arg, ast.arg) and arg.arg in self.names:
                 yield self.error(
                     arg,
                     message=self.argument_msg,
@@ -167,10 +164,10 @@ class BuiltinsChecker:
             item = stack.pop()
             if isinstance(item, (ast.Tuple, ast.List)):
                 stack.extend(list(item.elts))
-            elif isinstance(item, ast.Name) and item.id in BUILTINS:
+            elif isinstance(item, ast.Name) and item.id in self.names:
                 yield self.error(statement, variable=item.id)
             elif isinstance(item, ast.Starred):
-                if hasattr(item.value, 'id') and item.value.id in BUILTINS:
+                if hasattr(item.value, 'id') and item.value.id in self.names:
                     yield self.error(
                         statement,
                         variable=item.value.id,
@@ -183,18 +180,18 @@ class BuiltinsChecker:
             var = item.optional_vars
             if isinstance(var, (ast.Tuple, ast.List)):
                 for element in var.elts:
-                    if isinstance(element, ast.Name) and element.id in BUILTINS:
+                    if isinstance(element, ast.Name) and element.id in self.names:
                         yield self.error(statement, variable=element.id)
                     elif (
                         isinstance(element, ast.Starred)
-                        and element.value.id in BUILTINS
+                        and element.value.id in self.names
                     ):
                         yield self.error(
                             element,
                             variable=element.value.id,
                         )
 
-            elif isinstance(var, ast.Name) and var.id in BUILTINS:
+            elif isinstance(var, ast.Name) and var.id in self.names:
                 yield self.error(statement, variable=var.id)
 
     def check_exception(self, statement):
@@ -202,14 +199,14 @@ class BuiltinsChecker:
         if exception_name is None:
             return
 
-        if exception_name in BUILTINS:
+        if exception_name in self.names:
             yield self.error(statement, variable=exception_name)
 
     def check_comprehension(self, statement):
         for generator in statement.generators:
             if (
                 isinstance(generator.target, ast.Name)
-                and generator.target.id in BUILTINS
+                and generator.target.id in self.names
             ):
                 yield self.error(statement, variable=generator.target.id)
 
@@ -217,39 +214,26 @@ class BuiltinsChecker:
                 for tuple_element in generator.target.elts:
                     if (
                         isinstance(tuple_element, ast.Name)
-                        and tuple_element.id in BUILTINS
+                        and tuple_element.id in self.names
                     ):
                         yield self.error(statement, variable=tuple_element.id)
 
     def check_import(self, statement):
         for name in statement.names:
-            if name.asname in BUILTINS:
+            if name.asname in self.names:
                 yield self.error(statement, variable=name.asname)
 
     def check_class(self, statement):
-        if statement.name in BUILTINS:
+        if statement.name in self.names:
             yield self.error(statement, variable=statement.name)
 
-    def error(
-        self,
-        statement,
-        message=None,
-        variable=None,
-        line=None,
-        column=None,
-    ):
+    def error(self, statement, variable, message=None):
         if not message:
             message = self.assign_msg
-        if not variable:
-            variable = statement.id
-        if not line:
-            line = statement.lineno
-        if not column:
-            column = statement.col_offset
 
         return (
-            line,
-            column,
+            statement.lineno,
+            statement.col_offset,
             message.format(variable),
             type(self),
         )

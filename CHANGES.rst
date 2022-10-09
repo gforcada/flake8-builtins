@@ -8,6 +8,10 @@ Changelog
 
 - Add official support for python 3.10. [gforcada]
 
+- Update options handling. [gforcada]
+
+- Simplify testing. [gforcada]
+
 2.0.0 (2022-10-08)
 ------------------
 
