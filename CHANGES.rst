@@ -6,7 +6,7 @@ Changelog
 2.0.1 (unreleased)
 ------------------
 
-- Add official support for python 3.10 and 3.11. [gforcada]
+- Add official support for python 3.10 and 3.11. [gforcada] [michael-k]
 
 - Update options handling. [gforcada]
 
