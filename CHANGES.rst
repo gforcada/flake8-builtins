@@ -3,7 +3,7 @@
 Changelog
 =========
 
-2.0.1 (unreleased)
+2.0.1 (2022-11-01)
 ------------------
 
 - Add official support for python 3.10 and 3.11. [gforcada] [michael-k]
