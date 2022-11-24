@@ -71,7 +71,7 @@ Install
 -------
 Install with pip::
 
-    $ pip install flake8-builtins
+    $ python -m pip install flake8-builtins
 
 Options
 -------
