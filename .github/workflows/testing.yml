@@ -58,11 +58,6 @@ jobs:
       - name: Lint with flake8
         if: matrix.python-version == '3.9'
         run: flake8 *.py --count --max-complexity=18 --max-line-length=88 --show-source --statistics
-      - name: Lint with mypy
-        if: matrix.python-version == '3.9'
-        run: |
-          mkdir --parents --verbose .mypy_cache
-          mypy --ignore-missing-imports --install-types --non-interactive *.py || true
       # tests and coverage
       - name: Test
         run: pytest run_tests.py --cov --cov-report term-missing
