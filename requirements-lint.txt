@@ -83,12 +83,8 @@ isort==5.10.1
     #   flake8-isort
 mccabe==0.7.0
     # via flake8
-mypy==0.982
-    # via -r requirements-lint.in
 mypy-extensions==0.4.3
-    # via
-    #   black
-    #   mypy
+    # via black
 packaging==21.3
     # via pytest
 pathspec==0.10.1
@@ -131,19 +127,16 @@ tomli==2.0.1
     # via
     #   black
     #   coverage
-    #   mypy
     #   pytest
 typed-ast==1.5.4 ; python_version < "3.8"
     # via
     #   -r requirements-lint.in
     #   black
-    #   mypy
 typing-extensions==4.4.0
     # via
     #   black
     #   gitpython
     #   importlib-metadata
-    #   mypy
 urllib3==1.26.12
     # via requests
 zipp==3.10.0 ; python_version < "3.8"
