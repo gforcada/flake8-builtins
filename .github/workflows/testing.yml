@@ -9,10 +9,14 @@ env:
 jobs:
   test:
     name: Testing on
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         python-version: ["3.11", "3.10", 3.9, 3.8, 3.7, pypy-3.9]
+        os: ["ubuntu-22.04"]
+        include:
+          - os: "ubuntu-latest"
+            python-version: 3.11
     steps:
       - uses: actions/checkout@v3
       - name: Set up Python
