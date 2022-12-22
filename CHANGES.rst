@@ -6,8 +6,8 @@ Changelog
 2.0.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Honor `--builtins` option from flake8 #73.
+  [gforcada]
 
 2.0.1 (2022-11-01)
 ------------------
