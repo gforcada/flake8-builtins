@@ -10,13 +10,16 @@ from flake8_builtins import BuiltinsChecker
 
 class FakeOptions:
     builtins_ignorelist = []
+    builtins = None
 
-    def __init__(self, ignore_list=''):
+    def __init__(self, ignore_list='', builtins=None):
         if ignore_list:
             self.builtins_ignorelist = ignore_list
+        if builtins:
+            self.builtins = builtins
 
 
-def check_code(source, expected_codes=None, ignore_list=None):
+def check_code(source, expected_codes=None, ignore_list=None, builtins=None):
     """Check if the given source code generates the given flake8 errors
 
     If `expected_codes` is a string is converted to a list,
@@ -24,6 +27,9 @@ def check_code(source, expected_codes=None, ignore_list=None):
 
     If `ignore_list` is provided, it should be a list of names
     that will be ignored if found, as if they were a builtin.
+
+    If `builtins` is provided, it should be a list of names
+    that will be reported if found, as if they were a builtin.
     """
     if isinstance(expected_codes, str):
         expected_codes = [expected_codes]
@@ -33,7 +39,7 @@ def check_code(source, expected_codes=None, ignore_list=None):
         ignore_list = []
     tree = ast.parse(textwrap.dedent(source))
     checker = BuiltinsChecker(tree, '/home/script.py')
-    checker.parse_options(FakeOptions(ignore_list=ignore_list))
+    checker.parse_options(FakeOptions(ignore_list=ignore_list, builtins=builtins))
     return_statements = list(checker.run())
 
     assert len(return_statements) == len(expected_codes)
@@ -210,6 +216,11 @@ def test_default_ignored_names():
 def test_custom_ignored_names():
     source = 'copyright = 4'
     check_code(source, ignore_list=('copyright',))
+
+
+def test_flake8_builtins():
+    source = 'consider_this_builtin = 4'
+    check_code(source, ['A001'], builtins=('consider_this_builtin',))
 
 
 def test_for_loop_variable():
