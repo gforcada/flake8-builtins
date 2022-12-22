@@ -48,6 +48,9 @@ class BuiltinsChecker:
         cls.names = {
             a[0] for a in inspect.getmembers(builtins) if a[0] not in cls.ignore_list
         }
+        flake8_builtins = getattr(options, 'builtins', None)
+        if flake8_builtins:
+            cls.names.update(flake8_builtins)
 
     def run(self):
         tree = self.tree
