@@ -3,7 +3,7 @@
 Changelog
 =========
 
-2.0.2 (unreleased)
+2.1.0 (2022-12-23)
 ------------------
 
 - Honor `--builtins` option from flake8 #73.
