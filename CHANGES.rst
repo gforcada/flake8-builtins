@@ -6,8 +6,8 @@ Changelog
 2.1.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Drop python 3.7 support.
+  [gforcada]
 
 2.1.0 (2022-12-23)
 ------------------
