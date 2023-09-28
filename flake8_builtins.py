@@ -14,9 +14,9 @@ else:  # There was no walrus operator before python3.8
 class BuiltinsChecker:
     name = 'flake8_builtins'
     version = '1.5.2'
-    assign_msg = 'A001 variable "{0}" is shadowing a python builtin'
-    argument_msg = 'A002 argument "{0}" is shadowing a python builtin'
-    class_attribute_msg = 'A003 class attribute "{0}" is shadowing a python builtin'
+    assign_msg = 'A001 variable "{0}" is shadowing a Python builtin'
+    argument_msg = 'A002 argument "{0}" is shadowing a Python builtin'
+    class_attribute_msg = 'A003 class attribute "{0}" is shadowing a Python builtin'
     import_msg = 'A004 import statement "{0}" is shadowing a Python builtin'
 
     names = []
