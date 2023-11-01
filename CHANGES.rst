@@ -3,8 +3,8 @@
 Changelog
 =========
 
-2.1.1 (unreleased)
-------------------
+2.2.0a0 (2023-11-01)
+--------------------
 
 - Drop python 3.7 support.
   [gforcada]
