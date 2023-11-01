@@ -14,9 +14,10 @@ else:  # There was no walrus operator before python3.8
 class BuiltinsChecker:
     name = 'flake8_builtins'
     version = '1.5.2'
-    assign_msg = 'A001 variable "{0}" is shadowing a python builtin'
-    argument_msg = 'A002 argument "{0}" is shadowing a python builtin'
-    class_attribute_msg = 'A003 class attribute "{0}" is shadowing a python builtin'
+    assign_msg = 'A001 variable "{0}" is shadowing a Python builtin'
+    argument_msg = 'A002 argument "{0}" is shadowing a Python builtin'
+    class_attribute_msg = 'A003 class attribute "{0}" is shadowing a Python builtin'
+    import_msg = 'A004 import statement "{0}" is shadowing a Python builtin'
 
     names = []
     ignore_list = {
@@ -223,8 +224,17 @@ class BuiltinsChecker:
 
     def check_import(self, statement):
         for name in statement.names:
-            if name.asname in self.names:
-                yield self.error(statement, variable=name.asname)
+            collision = None
+            if name.name in self.names and name.asname is None:
+                collision = name.name
+            elif name.asname in self.names:
+                collision = name.asname
+            if collision:
+                yield self.error(
+                    statement,
+                    message=self.import_msg,
+                    variable=collision,
+                )
 
     def check_class(self, statement):
         if statement.name in self.names:

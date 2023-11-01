@@ -147,7 +147,6 @@ def test_keyword_argument_message():
         b = 4"""
     check_code(source, 'A002')
 
-
 def test_kwonly_argument_message():
     source = """
     def bla(*, list):
@@ -357,18 +356,28 @@ def test_list_comprehension_multiple_as_list():
     check_code(source, 'A001')
 
 
+def test_import():
+    source = """from numpy import max"""
+    check_code(source, 'A004')
+
+
 def test_import_as():
     source = 'import zope.component.getSite as int'
-    check_code(source, 'A001')
+    check_code(source, 'A004')
 
 
 def test_import_from_as():
     source = 'from zope.component import getSite as int'
-    check_code(source, 'A001')
+    check_code(source, 'A004')
 
 
 def test_import_as_nothing():
     source = 'import zope.component.getSite as something_else'
+    check_code(source)
+
+
+def test_import_collision_as_nothing():
+    source = """from numpy import max as non_shadowing_max"""
     check_code(source)
 
 

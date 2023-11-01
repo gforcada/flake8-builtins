@@ -86,6 +86,21 @@ Requirements
 - Python 3.8, 3.9, 3.10, 3.11, and pypy3
 - flake8
 
+Rules
+-----
+
+A001:
+  A variable is shadowing a Python builtin.
+
+A002:
+  An argument is shadowing a Python builtin.
+
+A003:
+  A class attribute is shadowing a Python builtin.
+
+A004:
+  An import statement is shadowing a Python builtin.
+
 License
 -------
 GPL 2.0
