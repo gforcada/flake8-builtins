@@ -146,6 +146,7 @@ def test_keyword_argument_message():
         b = 4"""
     check_code(source, 'A002')
 
+
 def test_kwonly_argument_message():
     source = """
     def bla(*, list):
