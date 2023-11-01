@@ -21,6 +21,9 @@ Changelog
 - Add rule for import shadowing (`A004`).
   [felixvd]
 
+- Switch to `main` branch.
+  [gforcada]
+
 2.1.0 (2022-12-23)
 ------------------
 
