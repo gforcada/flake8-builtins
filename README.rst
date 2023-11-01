@@ -1,10 +1,10 @@
 .. -*- coding: utf-8 -*-
 
-.. image:: https://github.com/gforcada/flake8-builtins/actions/workflows/testing.yml/badge.svg?branch=master
+.. image:: https://github.com/gforcada/flake8-builtins/actions/workflows/testing.yml/badge.svg?branch=main
    :target: https://github.com/gforcada/flake8-builtins/actions/workflows/testing.yml
 
-.. image:: https://coveralls.io/repos/gforcada/flake8-builtins/badge.svg?branch=master
-   :target: https://coveralls.io/github/gforcada/flake8-builtins?branch=master
+.. image:: https://coveralls.io/repos/gforcada/flake8-builtins/badge.svg?branch=main
+   :target: https://coveralls.io/github/gforcada/flake8-builtins?branch=main
 
 Flake8 Builtins plugin
 ======================

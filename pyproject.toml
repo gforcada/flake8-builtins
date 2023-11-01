@@ -37,7 +37,7 @@ dependencies = ["flake8"]
 [project.urls]
 "Homepage" = "https://github.com/gforcada/flake8-builtins"
 "Bug Tracker" = "https://github.com/gforcada/flake8-builtins/issues"
-"Changelog" = "https://github.com/gforcada/flake8-builtins/blob/master/CHANGES.rst"
+"Changelog" = "https://github.com/gforcada/flake8-builtins/blob/main/CHANGES.rst"
 
 [project.optional-dependencies]
 test = ["pytest"]
