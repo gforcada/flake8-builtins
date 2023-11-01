@@ -18,6 +18,9 @@ Changelog
 - Switch from `setuptools` to `hatchling`.
   [gforcada]
 
+- Add rule for import shadowing (`A004`).
+  [felixvd]
+
 2.1.0 (2022-12-23)
 ------------------
 
