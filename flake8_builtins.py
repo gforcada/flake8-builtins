@@ -1,14 +1,8 @@
 import ast
 import builtins
 import inspect
-import sys
 
 from flake8 import utils as stdin_utils
-
-if sys.version_info >= (3, 8):
-    NamedExpr = ast.NamedExpr
-else:  # There was no walrus operator before python3.8
-    NamedExpr = type('NamedExpr', (ast.AST,), {})
 
 
 class BuiltinsChecker:
@@ -88,7 +82,7 @@ class BuiltinsChecker:
 
         value = None
         for statement in ast.walk(tree):
-            if isinstance(statement, (ast.Assign, ast.AnnAssign, NamedExpr)):
+            if isinstance(statement, (ast.Assign, ast.AnnAssign, ast.NamedExpr)):
                 value = self.check_assignment(statement)
 
             elif isinstance(statement, function_nodes):
