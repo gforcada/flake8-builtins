@@ -1,8 +1,8 @@
+from flake8 import utils as stdin_utils
+
 import ast
 import builtins
 import inspect
-
-from flake8 import utils as stdin_utils
 
 
 class BuiltinsChecker:

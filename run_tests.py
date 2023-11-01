@@ -1,11 +1,10 @@
-import ast
-import sys
-import textwrap
+from flake8_builtins import BuiltinsChecker
 from unittest import mock
 
+import ast
 import pytest
-
-from flake8_builtins import BuiltinsChecker
+import sys
+import textwrap
 
 
 class FakeOptions:
