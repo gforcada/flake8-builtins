@@ -1,0 +1,46 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "flake8-builtins"
+version = "2.1.1.dev0"
+authors = [
+  { name="Gil Forcada Codinachs", email="gil.gnome@gmail.com" },
+]
+description = "Check for python builtins being used as variables or parameters"
+keywords = ["pep8", "flake8", "python", ]
+license = {file = "LICENSE"}
+readme = "README.rst"
+requires-python = ">=3.8"
+classifiers = [
+        "Development Status :: 5 - Production/Stable",
+        "Environment :: Console",
+        "Framework :: Flake8",
+        "Intended Audience :: Developers",
+        "License :: OSI Approved :: GNU General Public License v2 (GPLv2)",
+        "Operating System :: OS Independent",
+        "Programming Language :: Python",
+        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3 :: Only",
+        "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3.11",
+        "Programming Language :: Python :: Implementation :: CPython",
+        "Programming Language :: Python :: Implementation :: PyPy",
+        "Topic :: Software Development",
+        "Topic :: Software Development :: Quality Assurance",
+]
+dependencies = ["flake8"]
+
+[project.urls]
+"Homepage" = "https://github.com/gforcada/flake8-builtins"
+"Bug Tracker" = "https://github.com/gforcada/flake8-builtins/issues"
+"Changelog" = "https://github.com/gforcada/flake8-builtins/blob/master/CHANGES.rst"
+
+[project.optional-dependencies]
+test = ["pytest"]
+
+[project.entry-points."flake8.extension"]
+A00 = "flake8_builtins:BuiltinsChecker"
