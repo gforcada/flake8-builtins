@@ -6,8 +6,8 @@ Changelog
 2.2.0a1 (unreleased)
 --------------------
 
-- Nothing changed yet.
-
+- Use `tox` and `pre-commit` to ease project maintenance.
+  [gforcada]
 
 2.2.0a0 (2023-11-01)
 --------------------
