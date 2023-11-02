@@ -27,6 +27,7 @@ classifiers = [
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.11",
+        "Programming Language :: Python :: 3.12",
         "Programming Language :: Python :: Implementation :: CPython",
         "Programming Language :: Python :: Implementation :: PyPy",
         "Topic :: Software Development",
@@ -44,3 +45,16 @@ test = ["pytest"]
 
 [project.entry-points."flake8.extension"]
 A00 = "flake8_builtins:BuiltinsChecker"
+
+[tool.isort]
+profile = "plone"
+
+[tool.black]
+target-version = ["py38"]
+skip-string-normalization = true
+
+[tool.check-manifest]
+ignore = [
+    ".vscode/*",
+    "venv/*",
+]

@@ -1,11 +1,10 @@
-import ast
-import sys
-import textwrap
+from flake8_builtins import BuiltinsChecker
 from unittest import mock
 
+import ast
 import pytest
-
-from flake8_builtins import BuiltinsChecker
+import sys
+import textwrap
 
 
 class FakeOptions:
@@ -146,6 +145,7 @@ def test_keyword_argument_message():
     def bla(dict=3):
         b = 4"""
     check_code(source, 'A002')
+
 
 def test_kwonly_argument_message():
     source = """

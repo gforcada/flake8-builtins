@@ -9,14 +9,10 @@ env:
 jobs:
   test:
     name: Testing on
-    runs-on: ${{ matrix.os }}
+    runs-on: "ubuntu-latest"
     strategy:
       matrix:
         python-version: ["3.12", "3.11", "3.10", 3.9, 3.8, pypy-3.9]
-        os: ["ubuntu-22.04"]
-        include:
-          - os: "ubuntu-latest"
-            python-version: 3.11
     steps:
       - uses: actions/checkout@v4
       - name: Set up Python
@@ -27,39 +23,36 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ matrix.python-version }}-${{ hashFiles('requirements.txt') }}
+          key: ${{ runner.os }}-pip-${{ matrix.python-version }}-${{ hashFiles('tox.ini') }}
           restore-keys: |
             ${{ runner.os }}-pip-${{ matrix.python-version }}-
-      - name: pip version
-        run: pip --version
       - name: Install dependencies
-        if: matrix.python-version == '3.9'
-        run: python -m pip install -r requirements-lint.txt
-      - name: Install dependencies
-        if: matrix.python-version != '3.9'
-        run: python -m pip install -r requirements.txt
-      # formatters
-      - name: Run pyupgrade
-        if: matrix.python-version == '3.9'
-        run: pyupgrade --py37-plus *.py
-      - name: Run isort
-        if: matrix.python-version == '3.9'
-        run: isort --check-only *.py
-      - name: Run black
-        if: matrix.python-version == '3.9'
-        run: black --check --skip-string-normalization *.py
-      # linters
-      - name: Lint with bandit
-        if: matrix.python-version == '3.9'
-        run: bandit --skip B101 *.py  # B101 is assert statements
-      - name: Lint with codespell
-        if: matrix.python-version == '3.9'
-        run: codespell *.rst *.py
-      - name: Lint with flake8
-        if: matrix.python-version == '3.9'
-        run: flake8 *.py --count --max-complexity=18 --max-line-length=88 --show-source --statistics
-      # tests and coverage
+        run: python -m pip install tox
       - name: Test
-        run: pytest run_tests.py --cov --cov-report term-missing
-      - name: Coverage
-        run: coveralls --service=github
+        run: tox -e test
+
+  lint:
+    name: Lint code
+    runs-on: "ubuntu-latest"
+    strategy:
+      matrix:
+        python-version: [3.8]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Cache packages
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cache/pre-commit
+            ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ matrix.python-version }}-${{ hashFiles('tox.ini') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-${{ matrix.python-version }}-
+      - name: Install dependencies
+        run: python -m pip install tox
+      - name: Run linting
+        run: tox -e lint
