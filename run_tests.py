@@ -10,15 +10,24 @@ import textwrap
 class FakeOptions:
     builtins_ignorelist = []
     builtins = None
+    builtins_allowed_modules = None
 
-    def __init__(self, ignore_list='', builtins=None):
+    def __init__(self, ignore_list='', builtins=None, builtins_allowed_modules=None):
         if ignore_list:
             self.builtins_ignorelist = ignore_list
         if builtins:
             self.builtins = builtins
+        if builtins_allowed_modules:
+            self.builtins_allowed_modules = builtins_allowed_modules
 
 
-def check_code(source, expected_codes=None, ignore_list=None, builtins=None, filename='/home/script.py'):
+def check_code(
+    source,
+    expected_codes=None,
+    ignore_list=None,
+    builtins=None,
+    filename='/home/script.py',
+):
     """Check if the given source code generates the given flake8 errors
 
     If `expected_codes` is a string is converted to a list,
@@ -471,3 +480,11 @@ def test_tuple_unpacking():
     check_code(source)
 
 
+def test_module_name():
+    source = ''
+    check_code(source, expected_codes='A005', filename='./temp/logging.py')
+
+
+def test_module_name_not_builtin():
+    source = ''
+    check_code(source, filename='log_config')
