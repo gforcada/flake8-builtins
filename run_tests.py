@@ -18,7 +18,7 @@ class FakeOptions:
             self.builtins = builtins
 
 
-def check_code(source, expected_codes=None, ignore_list=None, builtins=None):
+def check_code(source, expected_codes=None, ignore_list=None, builtins=None, filename='/home/script.py'):
     """Check if the given source code generates the given flake8 errors
 
     If `expected_codes` is a string is converted to a list,
@@ -37,7 +37,7 @@ def check_code(source, expected_codes=None, ignore_list=None, builtins=None):
     if ignore_list is None:
         ignore_list = []
     tree = ast.parse(textwrap.dedent(source))
-    checker = BuiltinsChecker(tree, '/home/script.py')
+    checker = BuiltinsChecker(tree, filename)
     checker.parse_options(FakeOptions(ignore_list=ignore_list, builtins=builtins))
     return_statements = list(checker.run())
 
@@ -463,12 +463,11 @@ def test_async_with_nothing():
 def test_stdin(stdin_get_value):
     source = 'max = 4'
     stdin_get_value.return_value = source
-    checker = BuiltinsChecker('', 'stdin')
-    checker.parse_options(FakeOptions())
-    ret = list(checker.run())
-    assert len(ret) == 1
+    check_code('', expected_codes='A001', filename='stdin')
 
 
 def test_tuple_unpacking():
     source = 'a, *(b, c) = 1, 2, 3'
     check_code(source)
+
+
