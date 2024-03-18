@@ -58,7 +58,7 @@ class BuiltinsChecker:
             for child in ast.iter_child_nodes(statement):
                 child.__flake8_builtins_parent = statement
 
-        function_nodes = [ast.FunctionDef]
+        function_nodes = [ast.FunctionDef, ast.Lambda]
         if getattr(ast, 'AsyncFunctionDef', None):
             function_nodes.append(ast.AsyncFunctionDef)
         function_nodes = tuple(function_nodes)
@@ -136,7 +136,7 @@ class BuiltinsChecker:
                     stack.extend(list(item.value.elts))
 
     def check_function_definition(self, statement):
-        if statement.name in self.names:
+        if not isinstance(statement, ast.Lambda) and statement.name in self.names:
             msg = self.assign_msg
             if type(statement.__flake8_builtins_parent) is ast.ClassDef:
                 msg = self.class_attribute_msg

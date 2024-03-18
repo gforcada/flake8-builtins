@@ -140,6 +140,11 @@ def test_argument_message():
     check_code(source, 'A002')
 
 
+def test_lambda_argument_message():
+    source = 'takefirst = lambda list: list[0]'
+    check_code(source, 'A002')
+
+
 def test_keyword_argument_message():
     source = """
     def bla(dict=3):
