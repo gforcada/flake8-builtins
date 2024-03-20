@@ -142,7 +142,7 @@ def test_argument_message():
 
 def test_lambda_argument_message():
     source = 'takefirst = lambda list: list[0]'
-    check_code(source, 'A002')
+    check_code(source, 'A005')
 
 
 def test_keyword_argument_message():
@@ -171,6 +171,15 @@ def test_posonly_argument_message():
     """
     check_code(source, 'A002')
 
+@pytest.mark.skipif(
+    sys.version_info < (3, 8),
+    reason='This syntax is only valid in Python 3.8+',
+)
+def test_lambda_posonly_argument_message():
+    source = """
+    takefirst = lambda list, /: list[0]
+    """
+    check_code(source, 'A005')
 
 def test_no_error():
     source = """def bla(first):\n    b = 4"""
