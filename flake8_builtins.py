@@ -1,8 +1,10 @@
 from flake8 import utils as stdin_utils
+from pathlib import Path
 
 import ast
 import builtins
 import inspect
+import sys
 
 
 class BuiltinsChecker:
@@ -12,6 +14,7 @@ class BuiltinsChecker:
     argument_msg = 'A002 argument "{0}" is shadowing a Python builtin'
     class_attribute_msg = 'A003 class attribute "{0}" is shadowing a Python builtin'
     import_msg = 'A004 import statement "{0}" is shadowing a Python builtin'
+    module_name_msg = 'A005 the module is shadowing a Python builtin module "{0}"'
 
     names = []
     ignore_list = {
@@ -20,6 +23,7 @@ class BuiltinsChecker:
         'credits',
         '_',
     }
+    ignored_module_names = set()
 
     def __init__(self, tree, filename):
         self.tree = tree
@@ -34,6 +38,13 @@ class BuiltinsChecker:
             comma_separated_list=True,
             help='A comma separated list of builtins to skip checking',
         )
+        option_manager.add_option(
+            '--builtins-allowed-modules',
+            metavar='builtins',
+            parse_from_config=True,
+            comma_separated_list=True,
+            help='A comma separated list of builtin module names to allow',
+        )
 
     @classmethod
     def parse_options(cls, options):
@@ -47,12 +58,26 @@ class BuiltinsChecker:
         if flake8_builtins:
             cls.names.update(flake8_builtins)
 
+        if options.builtins_allowed_modules is not None:
+            cls.ignored_module_names.update(options.builtins_allowed_modules)
+
+        if hasattr(sys, 'stdlib_module_names'):
+            # stdlib_module_names is only available in Python 3.10+
+            known_module_names = sys.stdlib_module_names
+            cls.module_names = {
+                m for m in known_module_names if m not in cls.ignored_module_names
+            }
+        else:
+            cls.module_names = set()
+
     def run(self):
         tree = self.tree
 
         if self.filename == 'stdin':
             lines = stdin_utils.stdin_get_value()
             tree = ast.parse(lines)
+        else:
+            yield from self.check_module_name(self.filename)
 
         for statement in ast.walk(tree):
             for child in ast.iter_child_nodes(statement):
@@ -234,13 +259,26 @@ class BuiltinsChecker:
         if statement.name in self.names:
             yield self.error(statement, variable=statement.name)
 
-    def error(self, statement, variable, message=None):
+    def error(self, statement=None, variable=None, message=None):
         if not message:
             message = self.assign_msg
 
+        # lineno and col_offset must be integers
         return (
-            statement.lineno,
-            statement.col_offset,
+            statement.lineno if statement else 0,
+            statement.col_offset if statement else 0,
             message.format(variable),
             type(self),
         )
+
+    def check_module_name(self, filename: str):
+        if not self.module_names:
+            return
+        path = Path(filename)
+        module_name = path.name.removesuffix('.py')
+        if module_name in self.module_names:
+            yield self.error(
+                None,
+                module_name,
+                message=self.module_name_msg,
+            )

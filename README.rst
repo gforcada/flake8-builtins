@@ -101,6 +101,9 @@ A003:
 A004:
   An import statement is shadowing a Python builtin.
 
+A005:
+  A module is shadowing a Python builtin module (e.g: `logging` or `socket`)
+
 License
 -------
 GPL 2.0
