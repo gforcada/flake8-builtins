@@ -45,13 +45,6 @@ class BuiltinsChecker:
             comma_separated_list=True,
             help='A comma separated list of builtin module names to allow',
         )
-        option_manager.add_option(
-            '--builtins-allowed-modules',
-            metavar='builtins',
-            parse_from_config=True,
-            comma_separated_list=True,
-            help='A comma separated list of builtin module names to allow',
-        )
 
     @classmethod
     def parse_options(cls, options):
