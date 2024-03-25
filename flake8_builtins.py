@@ -23,7 +23,7 @@ class BuiltinsChecker:
         'credits',
         '_',
     }
-    ignored_module_names = {}
+    ignored_module_names = set()
 
     def __init__(self, tree, filename):
         self.tree = tree

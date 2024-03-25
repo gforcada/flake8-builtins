@@ -26,6 +26,7 @@ def check_code(
     expected_codes=None,
     ignore_list=None,
     builtins=None,
+    builtins_allowed_modules=None,
     filename='/home/script.py',
 ):
     """Check if the given source code generates the given flake8 errors
@@ -47,7 +48,13 @@ def check_code(
         ignore_list = []
     tree = ast.parse(textwrap.dedent(source))
     checker = BuiltinsChecker(tree, filename)
-    checker.parse_options(FakeOptions(ignore_list=ignore_list, builtins=builtins))
+    checker.parse_options(
+        FakeOptions(
+            ignore_list=ignore_list,
+            builtins=builtins,
+            builtins_allowed_modules=builtins_allowed_modules,
+        )
+    )
     return_statements = list(checker.run())
 
     assert len(return_statements) == len(expected_codes)
@@ -487,6 +494,19 @@ def test_tuple_unpacking():
 def test_module_name():
     source = ''
     check_code(source, expected_codes='A005', filename='./temp/logging.py')
+
+
+@pytest.mark.skipif(
+    sys.version_info < (3, 10),
+    reason='Skip A005, module testing is only supported in Python 3.10 and above',
+)
+def test_module_name_ignore_module():
+    source = ''
+    check_code(
+        source,
+        filename='./temp/logging.py',
+        builtins_allowed_modules=['logging'],
+    )
 
 
 def test_module_name_not_builtin():
