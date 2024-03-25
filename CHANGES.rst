@@ -6,7 +6,8 @@ Changelog
 2.2.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Add rule for builtin module name shadowing (`A005`).
+  [asfaltboy]
 
 
 2.2.0 (2023-11-03)
