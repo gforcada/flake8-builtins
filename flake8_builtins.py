@@ -61,12 +61,14 @@ class BuiltinsChecker:
         if options.builtins_allowed_modules is not None:
             cls.ignored_module_names.update(options.builtins_allowed_modules)
 
-        known_module_names = getattr(
-            sys, 'stdlib_module_names', sys.builtin_module_names
-        )
-        cls.module_names = {
-            m for m in known_module_names if m not in cls.ignored_module_names
-        }
+        if hasattr(sys, 'stdlib_module_names'):
+            # stdlib_module_names is only available in Python 3.10+
+            known_module_names = sys.stdlib_module_names
+            cls.module_names = {
+                m for m in known_module_names if m not in cls.ignored_module_names
+            }
+        else:
+            cls.module_names = set()
 
     def run(self):
         tree = self.tree
@@ -270,6 +272,8 @@ class BuiltinsChecker:
         )
 
     def check_module_name(self, filename: str):
+        if not self.module_names:
+            return
         path = Path(filename)
         module_name = path.name.removesuffix('.py')
         if module_name in self.module_names:

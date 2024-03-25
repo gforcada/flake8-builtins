@@ -480,6 +480,10 @@ def test_tuple_unpacking():
     check_code(source)
 
 
+@pytest.mark.skipif(
+    sys.version_info < (3, 10),
+    reason='Skip A005, module testing is only supported in Python 3.10 and above',
+)
 def test_module_name():
     source = ''
     check_code(source, expected_codes='A005', filename='./temp/logging.py')
