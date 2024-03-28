@@ -101,6 +101,9 @@ A003:
 A004:
   An import statement is shadowing a Python builtin.
 
+A005:
+  A lambda argument is shadowing a Python builtin.
+
 License
 -------
 GPL 2.0
