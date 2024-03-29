@@ -3,7 +3,7 @@
 Changelog
 =========
 
-2.2.1 (unreleased)
+2.3.0 (2024-03-29)
 ------------------
 
 - Add rule for builtin module name shadowing (`A005`).
