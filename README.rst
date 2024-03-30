@@ -102,6 +102,9 @@ A004:
   An import statement is shadowing a Python builtin.
 
 A005:
+  A module is shadowing a Python builtin module (e.g: `logging` or `socket`)
+
+A006:
   A lambda argument is shadowing a Python builtin.
 
 License
