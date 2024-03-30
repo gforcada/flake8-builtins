@@ -158,7 +158,7 @@ def test_argument_message():
 
 def test_lambda_argument_message():
     source = 'takefirst = lambda list: list[0]'
-    check_code(source, 'A005')
+    check_code(source, 'A006')
 
 
 def test_keyword_argument_message():
@@ -195,7 +195,7 @@ def test_lambda_posonly_argument_message():
     source = """
     takefirst = lambda list, /: list[0]
     """
-    check_code(source, 'A005')
+    check_code(source, 'A006')
 
 def test_no_error():
     source = """def bla(first):\n    b = 4"""
