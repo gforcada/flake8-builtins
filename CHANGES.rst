@@ -3,7 +3,7 @@
 Changelog
 =========
 
-2.3.1 (2024-04-01)
+2.3.1 (unreleased)
 ------------------
 
 - Add rule for lambda argument shadowing (`A006`).
