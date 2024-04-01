@@ -15,6 +15,7 @@ class BuiltinsChecker:
     class_attribute_msg = 'A003 class attribute "{0}" is shadowing a Python builtin'
     import_msg = 'A004 import statement "{0}" is shadowing a Python builtin'
     module_name_msg = 'A005 the module is shadowing a Python builtin module "{0}"'
+    lambda_argument_msg = 'A006 lambda argument "{0}" is shadowing a Python builtin'
 
     names = []
     ignore_list = {
@@ -113,6 +114,9 @@ class BuiltinsChecker:
             elif isinstance(statement, function_nodes):
                 value = self.check_function_definition(statement)
 
+            elif isinstance(statement, ast.Lambda):
+                value = self.check_lambda_definition(statement)
+
             elif isinstance(statement, for_nodes):
                 value = self.check_for_loop(statement)
 
@@ -178,6 +182,20 @@ class BuiltinsChecker:
                 yield self.error(
                     arg,
                     message=self.argument_msg,
+                    variable=arg.arg,
+                )
+
+    def check_lambda_definition(self, statement):
+        all_arguments = []
+        all_arguments.extend(statement.args.args)
+        all_arguments.extend(getattr(statement.args, 'kwonlyargs', []))
+        all_arguments.extend(getattr(statement.args, 'posonlyargs', []))
+
+        for arg in all_arguments:
+            if isinstance(arg, ast.arg) and arg.arg in self.names:
+                yield self.error(
+                    arg,
+                    message=self.lambda_argument_msg,
                     variable=arg.arg,
                 )
 

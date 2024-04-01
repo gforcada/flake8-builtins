@@ -3,10 +3,11 @@
 Changelog
 =========
 
-2.3.1 (unreleased)
+2.3.1 (2024-04-01)
 ------------------
 
-- Nothing changed yet.
+- Add rule for lambda argument shadowing (`A006`).
+  [cielavenir]
 
 
 2.3.0 (2024-03-29)

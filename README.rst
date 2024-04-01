@@ -104,6 +104,9 @@ A004:
 A005:
   A module is shadowing a Python builtin module (e.g: `logging` or `socket`)
 
+A006:
+  A lambda argument is shadowing a Python builtin.
+
 License
 -------
 GPL 2.0
