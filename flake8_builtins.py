@@ -293,7 +293,10 @@ class BuiltinsChecker:
         if not self.module_names:
             return
         path = Path(filename)
-        module_name = path.name.removesuffix('.py')
+        if path.name == '__init__.py':
+            module_name = path.parent.name
+        else:
+            module_name = path.name.removesuffix('.py')
         if module_name in self.module_names:
             yield self.error(
                 None,

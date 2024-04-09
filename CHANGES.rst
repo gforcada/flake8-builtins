@@ -6,7 +6,8 @@ Changelog
 2.4.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Support detecting a shadowing folder as module name (as part of `A005`).
+  [asfaltboy]
 
 
 2.4.0 (2024-04-01)

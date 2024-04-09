@@ -510,6 +510,7 @@ def test_tuple_unpacking():
 def test_module_name():
     source = ''
     check_code(source, expected_codes='A005', filename='./temp/logging.py')
+    check_code(source, expected_codes='A005', filename='./temp/typing/__init__.py')
 
 
 @pytest.mark.skipif(
