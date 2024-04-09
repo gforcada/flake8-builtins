@@ -3,7 +3,7 @@
 Changelog
 =========
 
-2.4.1 (unreleased)
+2.5.0 (2024-04-09)
 ------------------
 
 - Support detecting a shadowing folder as module name (as part of `A005`).
