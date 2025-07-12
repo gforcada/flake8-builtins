@@ -17,6 +17,9 @@ class BuiltinsChecker:
     module_name_msg = 'A005 the module is shadowing a Python builtin module "{0}"'
     lambda_argument_msg = 'A006 lambda argument "{0}" is shadowing a Python builtin'
 
+    default_line_number = 1
+    default_column_offset = 1
+
     names = []
     ignore_list = {
         '__name__',
@@ -283,8 +286,8 @@ class BuiltinsChecker:
 
         # lineno and col_offset must be integers
         return (
-            statement.lineno if statement else 0,
-            statement.col_offset if statement else 0,
+            statement.lineno if statement else self.default_line_number,
+            statement.col_offset if statement else self.default_column_offset,
             message.format(variable),
             type(self),
         )
