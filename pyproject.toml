@@ -11,7 +11,7 @@ authors = [
 description = "Check for python builtins being used as variables or parameters"
 keywords = ["pep8", "flake8", "python", ]
 readme = "README.rst"
-requires-python = ">=3.8"
+requires-python = ">=3.9"
 classifiers = [
         "Development Status :: 5 - Production/Stable",
         "Environment :: Console",
@@ -22,7 +22,6 @@ classifiers = [
         "Programming Language :: Python",
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3 :: Only",
-        "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.11",
@@ -49,7 +48,7 @@ A00 = "flake8_builtins:BuiltinsChecker"
 profile = "plone"
 
 [tool.black]
-target-version = ["py38"]
+target-version = ["py312"]
 skip-string-normalization = true
 
 [tool.check-manifest]
