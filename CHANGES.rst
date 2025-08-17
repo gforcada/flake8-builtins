@@ -3,11 +3,14 @@
 Changelog
 =========
 
-2.5.1 (unreleased)
+3.0.0 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Change `A005` to report errors on first line, rather than on line zero.
+  [tremblaysimon]
 
+- Add support for Python 3.13.
+  [gforcada]
 
 2.5.0 (2024-04-09)
 ------------------
