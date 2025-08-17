@@ -10,6 +10,7 @@ authors = [
 ]
 description = "Check for python builtins being used as variables or parameters"
 keywords = ["pep8", "flake8", "python", ]
+license = {file = "LICENSE"}
 readme = "README.rst"
 requires-python = ">=3.9"
 classifiers = [
