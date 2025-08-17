@@ -3,7 +3,7 @@
 Changelog
 =========
 
-3.0.0 (unreleased)
+3.0.0 (2025-08-17)
 ------------------
 
 - Change `A005` to report errors on first line, rather than on line zero.
