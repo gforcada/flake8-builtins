@@ -143,7 +143,9 @@ class BuiltinsChecker:
 
     def check_assignment(self, statement):
         msg = self.assign_msg
-        if type(statement.__flake8_builtins_parent) is ast.ClassDef:
+        if isinstance(statement.__flake8_builtins_parent, ast.ClassDef):
+            if "TypedDict" in {a.id for a in statement.__flake8_builtins_parent.bases if isinstance(a, ast.Name)}:
+                return
             msg = self.class_attribute_msg
 
         if isinstance(statement, ast.Assign):

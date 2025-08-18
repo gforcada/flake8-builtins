@@ -529,3 +529,77 @@ def test_module_name_ignore_module():
 def test_module_name_not_builtin():
     source = ''
     check_code(source, filename='log_config')
+
+
+
+@pytest.mark.skipif(
+    sys.version_info < (3, 9),
+    reason='Typed dicts are introduced in Python 3.9',
+)
+def test_typed_dicts_dont_shadow_builtins():
+    source = """
+    from typing import Any, TypedDict
+
+
+    class PaginatedResponse(TypedDict):
+        count: int
+        next: str
+        prev: str
+        data: list[Any]
+    """
+    check_code(source)
+
+
+@pytest.mark.xfail(reason="N-deep inheritence not supported")
+@pytest.mark.skipif(
+    sys.version_info < (3, 9),
+    reason='Typed dicts are introduced in Python 3.9',
+)
+def test_inherited_typed_dicts_dont_shadow_builtins():
+    source = """
+    from typing import Any, TypedDict
+
+
+    class ApiResponseDict(TypedDict):
+        status: int
+        okay: bool
+
+
+    class PaginatedResponse(ApiResponseDict):
+        count: int
+        next: str
+        prev: str
+        data: list[Any]
+    """
+    check_code(source)
+
+
+@pytest.mark.xfail(reason="N-deep inheritence not supported")
+@pytest.mark.skipif(
+    sys.version_info < (3, 9),
+    reason='Typed dicts are introduced in Python 3.9',
+)
+def test_n_deep_inherited_typed_dicts_dont_shadow_builtins():
+    source = """
+    from typing import Any, TypedDict
+
+
+    class ApiResponseDict(TypedDict):
+        status: int
+        okay: bool
+
+
+    class Something(ApiResponseDict):
+        okay: int
+
+
+    class SomethingElse(Something):
+        is_an_oof: bool
+
+    class PaginatedResponse(SomethingElse):
+        count: int
+        next: str
+        prev: str
+        data: list[Any]
+    """
+    check_code(source)
