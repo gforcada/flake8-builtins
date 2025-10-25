@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "flake8-builtins"
-version = "3.0.1.dev0"
+version = "3.1.0"
 authors = [
   { name="Gil Forcada Codinachs", email="gil.gnome@gmail.com" },
 ]

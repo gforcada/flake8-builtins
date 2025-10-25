@@ -3,7 +3,7 @@
 Changelog
 =========
 
-3.0.1 (unreleased)
+3.1.0 (2025-10-25)
 ------------------
 
 - Drop python 3.9 support and add Python 3.14 support.
