@@ -1,11 +1,16 @@
 name: Testing
+
 on:
   push:
     branches: [main]
   pull_request:
     branches: [main]
+
+permissions: {}
+
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
 jobs:
   test:
     name: Testing on
