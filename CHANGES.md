@@ -1,0 +1,220 @@
+# Changelog
+
+## 3.1.1 (unreleased)
+
+- update supported python versions (3.11 to 3.15) @gforcada
+
+- improve CI speed by using `uvx` and `prek` @gforcada
+
+- tighten GHA with `zizmor` @gforcada
+
+## 3.1.0 (2025-10-25)
+
+- drop python 3.9 support and add Python 3.14 support @gforcada
+
+- bump pypy minimum version to 3.10
+
+## 3.0.0 (2025-08-17)
+
+- change `A005` to report errors on first line, rather than on line zero @tremblaysimon
+
+- add support for Python 3.13 @gforcada
+
+## 2.5.0 (2024-04-09)
+
+- support detecting a shadowing folder as module name (as part of `A005`) @asfaltboy
+
+## 2.4.0 (2024-04-01)
+
+- add rule for lambda argument shadowing (`A006`) @cielavenir
+
+## 2.3.0 (2024-03-29)
+
+- add rule for builtin module name shadowing (`A005`) @asfaltboy
+
+## 2.2.0 (2023-11-03)
+
+- use `tox` and `pre-commit` to ease project maintenance @gforcada
+
+## 2.2.0a0 (2023-11-01)
+
+- drop python 3.7 support @gforcada
+
+- test pre-release of python 3.12 @gforcada
+
+- use `pyproject.toml` rather than `setup.py` @gforcada
+
+- switch from `setuptools` to `hatchling` @gforcada
+
+- add rule for import shadowing (`A004`) @felixvd
+
+- switch to `main` branch @gforcada
+
+## 2.1.0 (2022-12-23)
+
+- honor `--builtins` option from flake8 #73 @gforcada
+
+## 2.0.1 (2022-11-01)
+
+- add official support for python 3.10 and 3.11 @gforcada [michael-k]
+
+- update options handling @gforcada
+
+- simplify testing @gforcada
+
+## 2.0.0 (2022-10-08)
+
+- mark support for python 3.9 @lovetoburnswhen
+
+- replace travis for GitHub @cclauss
+
+- fix CI badge @sobolevn
+
+- make black and isort mandatory @cclauss
+
+- drop python 2.7 and 3.6 @gforcada
+
+- overhaul GitHub actions to test on actual supported python versions @gforcada
+
+- new flake8 option `--builtins-ignorelist` to specify a list of builtins to ignore @gsingh93
+
+## 1.5.3 (2020-05-14)
+
+- change messages to have shorter text
+
+## 1.5.2 (2020-03-16)
+
+- add `DictComp`, `SetComp`, and `GeneratorExpr` support @sobolevn
+
+## 1.5.1 (2020-03-16)
+
+- adds kwonly and posonly args support @sobolevn
+
+## 1.5.0 (2020-03-14)
+
+- add `python3.8` support @sobolevn
+
+- add `AnnAssign` support @soboelvn
+
+- add `NamedExpr` or `:=` support @sobolevn
+
+## 1.4.2 (2019-12-18)
+
+- fix tuple parsing @memery-imb
+
+## 1.4.1 (2018-05-11)
+
+- fix regression in 1.4.0 and interaction with `flake8-bugbear` @dirk-thomas
+
+## 1.4.0 (2018-05-03)
+
+- make code more robust by not assuming that a node is an `ast.Name`
+  but actually checking it @gforcada
+
+- handle `ast.Starred` as well (i.e. `a, *int = range(4)`) @gforcada
+
+- handle lists as well, i.e. `[a, int] = 3, 4` @gforcada
+
+## 1.3.1 (2018-04-30)
+
+- fix TypeError. Fixes https://github.com/gforcada/flake8-builtins/issues/30 @gforcada
+
+## 1.3.0 (2018-04-13)
+
+- report different error codes for function (A001) or method definitions (A003).
+  Fixes https://github.com/gforcada/flake8-builtins/issues/22#issuecomment-378720168 @gforcada
+
+- ignore underscore variables, django adds it on the list of builtins on its own.
+  Fixes https://github.com/gforcada/flake8-builtins/issues/25 @gforcada
+
+## 1.2.3 (2018-04-10)
+
+- handle cases where an unpacking happens in a with statement.
+  Fixes https://github.com/gforcada/flake8-builtins/issues/26 @gforcada
+
+## 1.2.2 (2018-04-03)
+
+- fix error message in function names shadowing a builtin.
+  fixes https://github.com/gforcada/flake8-builtins/issues/22 @gforcada
+
+## 1.2.1 (2018-04-01)
+
+- re-relase 1.2 from master branch @gforcada
+
+## 1.2 (2018-04-01)
+
+- fix error message in for loops @gforcada
+
+- inspect the following places for possible builtins being shadowed:
+
+  - with open('/tmp/bla.txt') as int
+  - except ValueError as int
+  - [int for int in range(4)]
+  - from zope.component import provide as int
+  - import zope.component as int
+  - class int(object)
+  - def int()
+  - async def int()
+  - async for int in range(4)
+  - async with open('/tmp/bla.txt') as int
+ @gforcada
+
+## 1.1.1 (2018-03-20)
+
+- variables assigned in a for loop can be not only a Tuple, but a Tuple inside a Tuple @dopplershift
+
+## 1.1.0 (2018-03-17)
+
+- update more trove classifiers @gforcada
+
+- inspect variables assigned in a for loop as well.
+  Thanks to sobolevn for reporting it! @gforcada
+
+## 1.0.post0 (2017-12-02)
+
+- update README @DmytroLitvinov
+
+- update trove classifiers @dirn
+
+## 1.0 (2017-08-19)
+
+- use requirements.txt to pin dependencies @gforcada
+
+- fix tests with newer flake8 version @gforcada
+
+- BREAKING CHANGE: error codes have been changed from B00X to A00X to not clash with `flake8-bugbear`,
+  see https://github.com/gforcada/flake8-builtins/issues/7 @gforcada
+
+## 0.4 (2017-05-29)
+
+- use a different code for class attributes @karamanolev
+
+## 0.3.1.post0 (2017-05-27)
+
+- release universal wheels, not only python 2 wheels @gforcada
+
+- update trove classifiers @gforcada
+
+## 0.3.1 (2017-05-27)
+
+- fix stdin handling @sangiovanni
+
+## 0.3 (2017-05-15)
+
+- handle stdin, which is the way flake8 gets integrated into editors @gforcada
+
+- test against Python 2.7, 3.5, 3.6 and pypy @gforcada
+
+## 0.2 (2016-03-30)
+
+- whitelist *some* builtins @gforcada
+
+## 0.1 (2016-03-04)
+
+- initial release @gforcada
+
+- add buildout and other stuff @gforcada
+
+- add actual code @gforcada
+
+- drop support for python 3.3, only python 2.7 and python 3.4 are tested @gforcada
