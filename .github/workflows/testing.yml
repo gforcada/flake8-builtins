@@ -14,22 +14,19 @@ jobs:
       matrix:
         python-version: ["3.15", "3.14", "3.13", "3.12", "3.11", "pypy-3.10"]
     steps:
-      - uses: actions/checkout@v4
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - uses: actions/checkout@v7.0.1
         with:
+          persist-credentials: false
+      - name: Install uv + caching
+        uses: astral-sh/setup-uv@v10.3.3
+        with:
+          enable-cache: true
+          cache-dependency-glob: |
+            tox.ini
+            pyproject.toml
           python-version: ${{ matrix.python-version }}
-      - name: Cache packages
-        uses: actions/cache@v4
-        with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ matrix.python-version }}-${{ hashFiles('tox.ini') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-${{ matrix.python-version }}-
-      - name: Install dependencies
-        run: python -m pip install tox
       - name: Test
-        run: tox -e test
+        run: uvx --with flake8 pytest run_tests.py
 
   lint:
     name: Lint code
@@ -38,21 +35,16 @@ jobs:
       matrix:
         python-version: ["3.11"]
     steps:
-      - uses: actions/checkout@v4
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - uses: actions/checkout@v7.0.1
         with:
+          persist-credentials: false
+      - name: Install uv + caching
+        uses: astral-sh/setup-uv@v10.3.3
+        with:
+          enable-cache: true
+          cache-dependency-glob: |
+            tox.ini
+            pyproject.toml
           python-version: ${{ matrix.python-version }}
-      - name: Cache packages
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.cache/pre-commit
-            ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ matrix.python-version }}-${{ hashFiles('tox.ini') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-${{ matrix.python-version }}-
-      - name: Install dependencies
-        run: python -m pip install tox
       - name: Run linting
-        run: tox -e lint
+        run: uvx prek run -a
